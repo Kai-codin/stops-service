@@ -10,8 +10,14 @@ import asyncpg
 import httpx
 
 # Import your source fetchers
-from app.sources.ukbuses import fetch_ukbuses
-from app.sources.hsl import fetch_hsl
+import sys
+from pathlib import Path
+
+# Add project root to import path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
+from sources.uk import fetch_uk
+from sources.hsl import fetch_hsl
 
 # --- CONFIG ---
 DATA_DIR = Path("data")
@@ -86,7 +92,7 @@ async def fetch_all_sources():
     """Fetch all sources concurrently."""
     async with httpx.AsyncClient() as client:
         tasks = {
-            "ukbuses": fetch_ukbuses(client=client),
+            "uk": fetch_uk(client=client),
             "hsl": fetch_hsl(client=client),
             # add more here later, e.g. "waltti": fetch_waltti(client=client),
         }
