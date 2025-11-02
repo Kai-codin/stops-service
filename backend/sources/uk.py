@@ -7,7 +7,7 @@ import httpx
 UKBUSES_BASE = "https://ukbuses.org/api/stops/"
 
 
-async def fetch_ukbuses(
+async def fetch_uk(
     min_lat: Optional[float] = None,
     max_lat: Optional[float] = None,
     min_lon: Optional[float] = None,
