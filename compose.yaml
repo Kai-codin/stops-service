@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    container_name: stops_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: stops
+      POSTGRES_PASSWORD: stops_password
+      POSTGRES_DB: stops_db
+    volumes:
+      - stops_data:/var/lib/postgresql/data
+    networks:
+      - stops-api
+  api:
+    build: ./backend
+    container_name: stops_api
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://stops:stops_password@db:5432/stops_db
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.stops_api.rule=Host(`stops.mybustimes.cc`)
+      - traefik.http.routers.stops_api.entrypoints=websecure
+      - traefik.http.routers.stops_api.tls.certresolver=letsencrypt
+      - traefik.http.services.kumastops_apiloadbalancer.server.port=8991
+    networks:
+      - stops-api
+    ports:
+      - 8991:8991
+volumes:
+  stops_data: null
+networks:
+  stops-api:
+    driver: bridge
