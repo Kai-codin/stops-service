@@ -182,3 +182,62 @@ def api_all_stops(
 def stops_page(request: Request):
     print("[main.py] GET /stops called", flush=True)
     return templates.TemplateResponse("stops.html", {"request": request})
+
+@app.get("/data", response_class=JSONResponse)
+def data_page():
+    if not engine:
+        return JSONResponse({"error": "Database not configured"}, status_code=500)
+
+    try:
+        with engine.connect() as conn:
+            # Get total stops per source
+            source_counts = conn.execute(text("""
+                SELECT source, COUNT(*) as count 
+                FROM stops 
+                GROUP BY source
+            """))
+            source_counts = {row.source: row.count for row in source_counts}
+
+            # Get most recent update timestamp
+            last_update = conn.execute(text("""
+                SELECT MAX(created_at) as last_update 
+                FROM stops
+            """)).scalar()
+
+            total_stops = sum(source_counts.values())
+
+            # Create data sources list with actual counts
+            data_sources = []
+            source_urls = {
+                "UK": "https://ukbuses.org/api/stops/",
+                "Finland": "https://api.digitransit.fi/routing/v2/finland/gtfs/v1",
+                "HSL": "https://api.digitransit.fi/routing/v2/hsl/gtfs/v1",
+                "VARELY": "https://api.digitransit.fi/routing/v2/varely/gtfs/v1",
+                "Waltti": "https://api.digitransit.fi/routing/v2/waltti/gtfs/v1"
+            }
+
+            for source, url in source_urls.items():
+                if source.lower() == "uk":
+                    source = "ukbuses"
+                else:
+                    source = source.lower()
+                data_sources.append({
+                    "source": source,
+                    "stops_count": source_counts.get(source, 0),
+                    "source_url": url
+                })
+
+
+    except Exception as e:
+        print(f"⚠️ Query failed: {e}", flush=True)
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+    print("[main.py] GET /data called", flush=True)
+    message = {
+        "data_sources": data_sources,
+        "health": [
+            {"Total_stops_in_db": total_stops},
+            {"Last_update": last_update},
+        ]
+    }
+    return {"message": message}
