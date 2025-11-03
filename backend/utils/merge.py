@@ -178,11 +178,11 @@ async def fetch_all_sources():
         # Available fetchers
         available = {}
 
-        try:
-            from sources.hsl import fetch_hsl
-            available["hsl"] = fetch_hsl
-        except Exception as e:
-            print(f"[merge.py] HSL import skipped: {e}", flush=True)
+        #try:
+        #    from sources.hsl import fetch_hsl
+        #    available["hsl"] = fetch_hsl
+        #except Exception as e:
+        #    print(f"[merge.py] HSL import skipped: {e}", flush=True)
 
         try:
             from sources.uk import fetch_uk
@@ -190,11 +190,17 @@ async def fetch_all_sources():
         except Exception as e:
             print(f"[merge.py] UK import skipped: {e}", flush=True)
 
-        try:
-            from sources.varely import fetch_varely
-            available["varely"] = fetch_varely
-        except Exception as e:
-            print(f"[merge.py] Varely import skipped: {e}", flush=True)
+        #try:
+        #    from sources.eu import fetch_eu
+        #    available["eu"] = fetch_eu
+        #except Exception as e:
+        #    print(f"[merge.py] EU import skipped: {e}", flush=True)
+
+        #try:
+        #    from sources.varely import fetch_varely
+        #    available["varely"] = fetch_varely
+        #except Exception as e:
+        #    print(f"[merge.py] Varely import skipped: {e}", flush=True)
 
         try:
             from sources.finland import fetch_finland
@@ -202,11 +208,11 @@ async def fetch_all_sources():
         except Exception as e:
             print(f"[merge.py] Finland import skipped: {e}", flush=True)
 
-        try:
-            from sources.waltti import fetch_waltti
-            available["waltti"] = fetch_waltti
-        except Exception as e:
-            print(f"[merge.py] Waltti import skipped: {e}", flush=True)
+        #try:
+        #    from sources.waltti import fetch_waltti
+        #    available["waltti"] = fetch_waltti
+        #except Exception as e:
+        #    print(f"[merge.py] Waltti import skipped: {e}", flush=True)
 
         try:
             from sources.france import fetch_france
