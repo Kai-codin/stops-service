@@ -17,6 +17,7 @@ async def fetch_hsl(
     max_lon: Optional[float] = None,
     client: Optional[httpx.AsyncClient] = None,
     timeout: int = 30,
+    debug: bool = False,
 ) -> List[Dict[str, Any]]:
     """
     Fetch stops via the Digitransit HSL GraphQL endpoint.

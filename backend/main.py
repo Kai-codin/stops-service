@@ -1,7 +1,7 @@
 print("[main.py] Module loading...", flush=True)
 
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request, Query
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
@@ -13,10 +13,8 @@ print("[main.py] Imports done", flush=True)
 app = FastAPI(title="Stops API")
 print("[main.py] FastAPI app created", flush=True)
 
-# Database URL (from env)
+# Database URL
 DATABASE_URL = os.getenv("DATABASE_URL")
-
-# Setup DB engine
 engine = None
 
 
@@ -40,39 +38,133 @@ def startup():
 @app.get("/")
 def root():
     print("[main.py] GET / called", flush=True)
-    return {"message": "🚏 Stops API — Coming Soon!"}
+    return {"message": "🚏 Stops API — Running!"}
 
 
 # --- Frontend setup ---
 print("[main.py] Frontend setup starting...", flush=True)
-# Create static and template directories if missing
 os.makedirs("templates", exist_ok=True)
 os.makedirs("static", exist_ok=True)
-print("[main.py] Created templates and static dirs", flush=True)
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 print("[main.py] Frontend setup complete", flush=True)
 
 
+# --- 1️⃣ Bounding box API endpoint ---
+@app.get("/api/stops")
+def api_stops(
+    xmin: float = Query(...),
+    xmax: float = Query(...),
+    ymin: float = Query(...),
+    ymax: float = Query(...),
+    limit: int = Query(200),
+    offset: int = Query(0),
+):
+    """Return stops within a bounding box"""
+    print(f"[main.py] GET /api/stops bbox=({xmin},{xmax},{ymin},{ymax})", flush=True)
+    if not engine:
+        return JSONResponse({"error": "Database not configured"}, status_code=500)
+
+    try:
+        with engine.connect() as conn:
+            cols = [
+                row[0]
+                for row in conn.execute(
+                    text("""
+                        SELECT column_name
+                        FROM information_schema.columns
+                        WHERE table_name='stops';
+                    """)
+                )
+            ]
+
+            if "lon" in cols and "lat" in cols:
+                query = text("""
+                    SELECT name, bearing, lon, lat
+                    FROM stops
+                    WHERE lon BETWEEN :xmin AND :xmax
+                    AND lat BETWEEN :ymin AND :ymax
+                    ORDER BY name
+                    LIMIT :limit OFFSET :offset
+                """)
+            elif "location" in cols:
+                query = text("""
+                    SELECT name, bearing, location[1] AS lon, location[2] AS lat
+                    FROM stops
+                    WHERE location[1] BETWEEN :xmin AND :xmax
+                    AND location[2] BETWEEN :ymin AND :ymax
+                    ORDER BY name
+                    LIMIT :limit OFFSET :offset
+                """)
+            else:
+                return JSONResponse({"error": "No location columns found"}, status_code=500)
+
+            result = conn.execute(
+                query,
+                {"xmin": xmin, "xmax": xmax, "ymin": ymin, "ymax": ymax, "limit": limit, "offset": offset},
+            )
+            stops = [dict(row._mapping) for row in result]
+            print(f"[main.py] Returning {len(stops)} stops", flush=True)
+            return stops
+
+    except Exception as e:
+        print(f"⚠️ Query failed: {e}", flush=True)
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+# --- 2️⃣ Paginated list API endpoint ---
+@app.get("/api/allstops")
+def api_all_stops(
+    limit: int = Query(200),
+    offset: int = Query(0),
+):
+    """Return all stops paginated"""
+    print(f"[main.py] GET /api/allstops limit={limit} offset={offset}", flush=True)
+    if not engine:
+        return JSONResponse({"error": "Database not configured"}, status_code=500)
+
+    try:
+        with engine.connect() as conn:
+            cols = [
+                row[0]
+                for row in conn.execute(
+                    text("""
+                        SELECT column_name
+                        FROM information_schema.columns
+                        WHERE table_name='stops';
+                    """)
+                )
+            ]
+
+            if "lon" in cols and "lat" in cols:
+                query = text("""
+                    SELECT name, bearing, lon, lat
+                    FROM stops
+                    ORDER BY name
+                    LIMIT :limit OFFSET :offset
+                """)
+            elif "location" in cols:
+                query = text("""
+                    SELECT name, bearing, location[1] AS lon, location[2] AS lat
+                    FROM stops
+                    ORDER BY name
+                    LIMIT :limit OFFSET :offset
+                """)
+            else:
+                return JSONResponse({"error": "No location columns found"}, status_code=500)
+
+            result = conn.execute(query, {"limit": limit, "offset": offset})
+            stops = [dict(row._mapping) for row in result]
+            print(f"[main.py] Returning {len(stops)} stops", flush=True)
+            return stops
+
+    except Exception as e:
+        print(f"⚠️ Query failed: {e}", flush=True)
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+# --- 3️⃣ Viewer page ---
 @app.get("/stops", response_class=HTMLResponse)
 def stops_page(request: Request):
-    """Simple page to show stop data"""
     print("[main.py] GET /stops called", flush=True)
-    stops = []
-    if engine:
-        try:
-            print("[main.py] Querying stops from database...", flush=True)
-            with engine.connect() as conn:
-                result = conn.execute(
-                    text("SELECT name, bearing, lon, lat FROM stops ORDER BY name LIMIT 100")
-                )
-                stops = [dict(row._mapping) for row in result]
-            print(f"[main.py] Retrieved {len(stops)} stops from database", flush=True)
-        except Exception as e:
-            print(f"⚠️ Failed to query stops: {e}", flush=True)
-
-    return templates.TemplateResponse(
-        "stops.html",
-        {"request": request, "stops": stops},
-    )
+    return templates.TemplateResponse("stops.html", {"request": request})

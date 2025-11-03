@@ -1,4 +1,3 @@
-# ukbuses.py
 print("[uk.py] Module loading...", flush=True)
 
 import asyncio
@@ -18,6 +17,7 @@ async def fetch_uk(
     max_lon: Optional[float] = None,
     client: Optional[httpx.AsyncClient] = None,
     timeout: int = 30,
+    debug: bool = False,   # 👈 added flag
 ) -> List[Dict[str, Any]]:
     """
     Fetch stops from ukbuses.org and return a normalized list.
@@ -25,15 +25,12 @@ async def fetch_uk(
     Parameters
     ----------
     min_lat, max_lat, min_lon, max_lon : optional
-        If provided, these will be added as bbox query params. NOTE:
-        ukbuses expects:
-            ymin = min_lat
-            ymax = max_lat
-            xmin = min_lon
-            xmax = max_lon
+        If provided, these will be added as bbox query params.
     client : optional httpx.AsyncClient
         If omitted a temporary client will be used (and closed).
     timeout : request timeout seconds
+    debug : bool
+        If True, only fetches the first page for faster testing.
 
     Returns
     -------
@@ -49,7 +46,6 @@ async def fetch_uk(
     try:
         params = {}
         if None not in (min_lat, max_lat, min_lon, max_lon):
-            # mapping to ukbuses param names (based on observed working example)
             params = {
                 "ymin": str(min_lat),
                 "ymax": str(max_lat),
@@ -60,6 +56,7 @@ async def fetch_uk(
 
         url = UKBUSES_BASE
         results: List[Dict[str, Any]] = []
+        page = 1
 
         while url:
             print(f"[uk.py] fetch_uk: Fetching from {url}...", flush=True)
@@ -67,11 +64,10 @@ async def fetch_uk(
             resp.raise_for_status()
             data = resp.json()
 
-            # Expecting paginated object with "results" list and "next" link
             page_results = data.get("results", [])
-            print(f"[uk.py] fetch_uk: Got {len(page_results)} results from this page", flush=True)
+            print(f"[uk.py] fetch_uk: Got {len(page_results)} results from page {page}", flush=True)
+
             for item in page_results:
-                # Normalise: ukbuses uses "location": [lon, lat]
                 loc = item.get("location") or []
                 lon = None
                 lat = None
@@ -86,19 +82,22 @@ async def fetch_uk(
                     "lon": lon,
                     "bearing": item.get("bearing", "") or "",
                     "source": "ukbuses",
-                    # you can copy other fields here if needed
                 }
                 results.append(normalized)
 
-            # pagination: server returns "next" (full url) or None
+            # Stop early if debug mode is enabled
+            if debug:
+                print("[uk.py] fetch_uk: Debug mode active — stopping after first page", flush=True)
+                break
+
             next_url = data.get("next")
             if not next_url:
                 print(f"[uk.py] fetch_uk: No more pages", flush=True)
                 break
 
-            # Clear params for subsequent pages; 'next' already contains querystring
             url = next_url
             params = None
+            page += 1
 
         print(f"[uk.py] fetch_uk: Fetched {len(results)} UK stops from ukbuses.org", flush=True)
         return results

@@ -20,7 +20,10 @@ print("[merge.py] asyncpg and httpx imports done", flush=True)
 import sys
 from pathlib import Path
 
-# Add project root to import path
+# DEBUG toggle: when True, fetchers should fetch small sample/page only
+debug = False
+
+# Add project root to import path (so "sources.*" imports work)
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 print("[merge.py] About to import fetch_uk...", flush=True)
@@ -31,9 +34,35 @@ print("[merge.py] About to import fetch_hsl...", flush=True)
 from sources.hsl import fetch_hsl
 print("[merge.py] fetch_hsl imported", flush=True)
 
+# Optional additional sources; if you don't want them yet you can comment out
+try:
+    print("[merge.py] About to import fetch_varely...", flush=True)
+    from sources.varely import fetch_varely
+    print("[merge.py] fetch_varely imported", flush=True)
+except Exception:
+    print("[merge.py] fetch_varely import skipped/not found", flush=True)
+    fetch_varely = None
+
+try:
+    print("[merge.py] About to import fetch_waltti...", flush=True)
+    from sources.waltti import fetch_waltti
+    print("[merge.py] fetch_waltti imported", flush=True)
+except Exception:
+    print("[merge.py] fetch_waltti import skipped/not found", flush=True)
+    fetch_waltti = None
+
+try:
+    print("[merge.py] About to import fetch_finland...", flush=True)
+    from sources.finland import fetch_finland
+    print("[merge.py] fetch_finland imported", flush=True)
+except Exception:
+    print("[merge.py] fetch_finland import skipped/not found", flush=True)
+    fetch_finland = None
+
 # --- CONFIG ---
 print("[merge.py] Config section starting...", flush=True)
 DATA_DIR = Path("data")
+# Use environment DATABASE_URL if present, otherwise fallback to a common docker-compose name
 DB_DSN = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db:5432/stops")
 print(f"[merge.py] DB_DSN={DB_DSN}", flush=True)
 print("[merge.py] Module load complete", flush=True)
@@ -44,10 +73,16 @@ async def ensure_dir(path: Path):
     path.mkdir(parents=True, exist_ok=True)
 
 
-async def save_json(path: Path, data: Any):
-    print(f"[merge.py] save_json: {path}", flush=True)
-    async with asyncio.to_thread(open, path, "w") as f:
+def save_json_sync(path: Path, data: Any):
+    """Synchronous JSON save used by asyncio.to_thread"""
+    with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
+
+
+async def save_json(path: Path, data: Any):
+    """Offload JSON file writing to a thread"""
+    print(f"[merge.py] save_json: {path}", flush=True)
+    await asyncio.to_thread(save_json_sync, path, data)
 
 
 async def dump_source_data(source: str, data: List[Dict[str, Any]]):
@@ -57,24 +92,49 @@ async def dump_source_data(source: str, data: List[Dict[str, Any]]):
     dir_path = DATA_DIR / source
     await ensure_dir(dir_path)
     file_path = dir_path / f"{source}-{date}.json"
-    with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
+    # use threaded write to avoid blocking event loop
+    await save_json(file_path, data)
     print(f"✅ Saved {len(data)} stops for {source} → {file_path}", flush=True)
 
 
 def normalize_for_db(stop: Dict[str, Any]) -> Dict[str, Any]:
     """
     Reduce to minimal required schema:
-    {"bearing": "", "name": "stop name", "location": [lon, lat]}
+    {"bearing": "", "name": "stop name", "location": [lon, lat], "source": "...", "created_at": datetime}
     """
-    # print(f"[merge.py] normalize_for_db: {stop.get('name')}", flush=True)  # verbose
+    lon = None
+    lat = None
+    # allow both location array and lon/lat keys
+    if stop.get("location") and isinstance(stop.get("location"), (list, tuple)) and len(stop["location"]) >= 2:
+        lon = float(stop["location"][0])
+        lat = float(stop["location"][1])
+    else:
+        # some sources use lon/lat keys
+        try:
+            lon = float(stop.get("lon")) if stop.get("lon") is not None else None
+            lat = float(stop.get("lat")) if stop.get("lat") is not None else None
+        except (TypeError, ValueError):
+            lon = None
+            lat = None
+
+    created = stop.get("created_at")
+    if isinstance(created, str):
+        try:
+            created_at = datetime.datetime.fromisoformat(created)
+        except ValueError:
+            created_at = datetime.datetime.utcnow()
+    elif isinstance(created, datetime.datetime):
+        created_at = created
+    else:
+        created_at = datetime.datetime.utcnow()
+
+
     return {
-        "bearing": stop.get("bearing", ""),
-        "name": stop.get("name", ""),
-        "location": [
-            float(stop["lon"]) if stop.get("lon") is not None else None,
-            float(stop["lat"]) if stop.get("lat") is not None else None,
-        ],
+        "bearing": stop.get("bearing", "") or "",
+        "name": stop.get("name", "") or stop.get("common_name", "") or "",
+        "location": [lon, lat],
+        "source": stop.get("source", "") or "",
+        "created_at": created_at,
     }
 
 
@@ -92,10 +152,13 @@ async def save_to_db(stops: List[Dict[str, Any]]):
             id SERIAL PRIMARY KEY,
             name TEXT,
             bearing TEXT,
-            location DOUBLE PRECISION[]
+            location DOUBLE PRECISION[],
+            source TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
         """
     )
+
     print("Ensured stops table exists", flush=True)
 
     # Clear old data (optional)
@@ -103,15 +166,25 @@ async def save_to_db(stops: List[Dict[str, Any]]):
     await conn.execute("TRUNCATE TABLE stops;")
     print("Truncated stops table", flush=True)
 
-    # Bulk insert
-    print(f"[merge.py] Inserting {len(stops)} stops...", flush=True)
+    # Prepare records for insert: ensure location values are proper numeric tuples
+    records = []
+    for s in stops:
+        loc = s.get("location") or [None, None]
+        # ensure list of two floats or nulls
+        lon = float(loc[0]) if loc[0] is not None else None
+        lat = float(loc[1]) if loc[1] is not None else None
+        records.append((s.get("name"), s.get("bearing"), [lon, lat], s.get("source"), s.get("created_at")))
+
+    print(f"[merge.py] Inserting {len(records)} stops...", flush=True)
+
+    # Asyncpg supports copy_records_to_table which is faster for bulk, but keep executemany for simplicity
     await conn.executemany(
-        "INSERT INTO stops (name, bearing, location) VALUES ($1, $2, $3);",
-        [(s["name"], s["bearing"], s["location"]) for s in stops],
+        "INSERT INTO stops (name, bearing, location, source, created_at) VALUES ($1, $2, $3, $4, $5);",
+        records,
     )
 
     await conn.close()
-    print(f"💾 Inserted {len(stops)} merged stops into database.", flush=True)
+    print(f"💾 Inserted {len(records)} merged stops into database.", flush=True)
 
 
 async def fetch_all_sources():
@@ -119,11 +192,17 @@ async def fetch_all_sources():
     print("[merge.py] fetch_all_sources: Starting", flush=True)
     async with httpx.AsyncClient() as client:
         print("[merge.py] fetch_all_sources: AsyncClient created", flush=True)
+        # build tasks dict dynamically (include optional sources only if available)
         tasks = {
-            "uk": fetch_uk(client=client),
-            "hsl": fetch_hsl(client=client),
-            # add more here later, e.g. "waltti": fetch_waltti(client=client),
+            "uk": fetch_uk(client=client, debug=debug),
+            "hsl": fetch_hsl(client=client, debug=debug),
         }
+        if fetch_varely:
+            tasks["varely"] = fetch_varely(client=client, debug=debug)
+        if fetch_waltti:
+            tasks["waltti"] = fetch_waltti(client=client, debug=debug)
+        if fetch_finland:
+            tasks["finland"] = fetch_finland(client=client, debug=debug)
 
         print("[merge.py] fetch_all_sources: Awaiting tasks...", flush=True)
         results = await asyncio.gather(*tasks.values(), return_exceptions=True)
@@ -136,6 +215,12 @@ async def fetch_all_sources():
                 continue
             print(f"[merge.py] Dumping source data for {source}...", flush=True)
             await dump_source_data(source, result)
+
+            # Ensure each returned stop has a 'source' field so normalize can use it
+            for item in result:
+                if "source" not in item or not item.get("source"):
+                    item["source"] = source
+                # keep created_at if provided by source, else let normalize add now
             merged.extend(result)
             print(f"Fetched {len(result)} stops from {source}", flush=True)
 
@@ -149,7 +234,13 @@ async def main():
     data = await fetch_all_sources()
 
     print(f"📦 Merging {len(data)} total stops...", flush=True)
-    normalized = [normalize_for_db(s) for s in data if s.get("lat") and s.get("lon")]
+    # Normalise and drop entries that don't have lat/lon
+    normalized = []
+    for s in data:
+        norm = normalize_for_db(s)
+        if norm["location"][0] is not None and norm["location"][1] is not None:
+            normalized.append(norm)
+
     print(f"[merge.py] Normalized {len(normalized)} stops", flush=True)
 
     print(f"[merge.py] Saving to DB...", flush=True)
