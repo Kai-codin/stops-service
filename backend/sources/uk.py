@@ -60,7 +60,6 @@ async def fetch_uk(
         page = 1
 
         while url:
-            url = url + "&active=true"
             print(f"[uk.py] fetch_uk: Fetching from {url}...", flush=True)
             resp = await client.get(url, params=params if url == UKBUSES_BASE else None)
             resp.raise_for_status()
