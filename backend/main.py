@@ -20,6 +20,7 @@ app.add_middleware(
         "http://localhost:8000",  # local dev frontend
         "https://stops.mybustimes.cc",  # production frontend
         "https://mybustimes.cc",  # optional main domain
+        "https://www.mybustimes.cc",  # optional www domain
     ],
     allow_credentials=True,
     allow_methods=["*"],
