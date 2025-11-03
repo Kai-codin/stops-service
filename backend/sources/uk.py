@@ -35,6 +35,7 @@ async def fetch_uk(
     -------
     list of dicts with keys: id, name, lat, lon, bearing, source
     """
+    print("Fetching UK stops from ukbuses.org...")
     close_client = False
     if client is None:
         client = httpx.AsyncClient(timeout=timeout)
@@ -90,6 +91,7 @@ async def fetch_uk(
             url = next_url
             params = None
 
+        print(f"Fetched {len(results)} UK stops from ukbuses.org")
         return results
 
     finally:

@@ -5,6 +5,7 @@ import asyncio
 import datetime
 from pathlib import Path
 from typing import List, Dict, Any
+import logging
 
 import asyncpg
 import httpx
@@ -62,8 +63,9 @@ def normalize_for_db(stop: Dict[str, Any]) -> Dict[str, Any]:
 async def save_to_db(stops: List[Dict[str, Any]]):
     """Insert merged stops into PostgreSQL"""
     conn = await asyncpg.connect(DB_DSN)
+    print(f"Connecting to DB: {DB_DSN}")
 
-    # Create table if it doesn’t exist
+    # Create table if it doesn't exist
     await conn.execute(
         """
         CREATE TABLE IF NOT EXISTS stops (
@@ -74,9 +76,11 @@ async def save_to_db(stops: List[Dict[str, Any]]):
         );
         """
     )
+    print("Ensured stops table exists")
 
     # Clear old data (optional)
     await conn.execute("TRUNCATE TABLE stops;")
+    print("Truncated stops table")
 
     # Bulk insert
     await conn.executemany(
@@ -106,6 +110,7 @@ async def fetch_all_sources():
                 continue
             await dump_source_data(source, result)
             merged.extend(result)
+            print(f"Fetched {len(result)} stops from {source}")
 
         return merged
 

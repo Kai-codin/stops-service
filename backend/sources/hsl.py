@@ -3,7 +3,7 @@ from typing import List, Optional, Dict, Any
 import httpx
 import math
 
-HSL_ENDPOINT = "https://api.digitransit.fi/routing/v2/hsl/gtfs/v1"
+HSL_ENDPOINT = "https://api.digitransit.fi/routing/v2/hsl/gtfs/v1?digitransit-subscription-key=a1e437f79628464c9ea8d542db6f6e94"
 
 
 async def fetch_hsl(

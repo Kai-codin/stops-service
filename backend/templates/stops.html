@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stops Browser</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 text-slate-800">
+    <div class="max-w-6xl mx-auto mt-10 bg-white p-6 rounded-2xl shadow">
+      <h1 class="text-2xl font-bold mb-4">🚌 Stops Browser</h1>
+
+      {% if stops %}
+      <table class="min-w-full border border-gray-200 text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="p-2 border-b text-left">Name</th>
+            <th class="p-2 border-b text-left">Bearing</th>
+            <th class="p-2 border-b text-left">Longitude</th>
+            <th class="p-2 border-b text-left">Latitude</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for stop in stops %}
+          <tr class="hover:bg-gray-50">
+            <td class="p-2 border-b">{{ stop.name }}</td>
+            <td class="p-2 border-b">{{ stop.bearing }}</td>
+            <td class="p-2 border-b">{{ stop.lon }}</td>
+            <td class="p-2 border-b">{{ stop.lat }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-gray-600">No stops found in database.</p>
+      {% endif %}
+    </div>
+  </body>
+</html>
