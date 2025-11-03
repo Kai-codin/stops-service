@@ -106,8 +106,10 @@ ITALY_ENDPOINTS = {
     "https://s3.transitpdf.com/files/uran/improved-gtfs-dati-privati.zip",
     "https://s3.transitpdf.com/files/uran/improved-gtfs-olbia.zip",
     "https://s3.transitpdf.com/files/uran/improved-gtfs-azienda-catania.zip",
-    "https://s3.transitpdf.com/files/uran/improved-gtfs-movibus-srl.zip"
+    "https://s3.transitpdf.com/files/uran/improved-gtfs-movibus-srl.zip",
+    "https://s3.transitpdf.com/files/uran/improved-gtfs-actv.zip"
 }
+
 
 async def fetch_italy(
     min_lat: Optional[float] = None,
