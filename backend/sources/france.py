@@ -23,8 +23,9 @@ async def fetch_france(
         close_client = True
 
     # Use smaller tiles (1°×1° grid)
-    lat_ranges = [(lat, lat + 1.0) for lat in range(41, 52)]
-    lon_ranges = [(lon, lon + 1.0) for lon in range(-6, 10)]
+    overlap = 0.05
+    lat_ranges = [(lat - overlap, lat + 0.5 + overlap) for lat in range(41, 52)]
+    lon_ranges = [(lon - overlap, lon + 0.5 + overlap) for lon in range(-6, 10)]
 
     results: List[Dict[str, Any]] = []
 
