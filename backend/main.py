@@ -213,7 +213,8 @@ def data_page():
                 "HSL": "https://api.digitransit.fi/routing/v2/hsl/gtfs/v1",
                 "VARELY": "https://api.digitransit.fi/routing/v2/varely/gtfs/v1",
                 "Waltti": "https://api.digitransit.fi/routing/v2/waltti/gtfs/v1",
-                "France": "https://transport.data.gouv.fr/api/gtfs-stops"
+                "France": "https://transport.data.gouv.fr/api/gtfs-stops",
+                "Italy": "https://s3.transitpdf.com/files/uran/improved-gtfs-rome-static-gtfs.zip"
             }
 
             for source, url in source_urls.items():
