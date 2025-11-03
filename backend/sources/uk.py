@@ -77,6 +77,7 @@ async def fetch_uk(
                 
                 active = item.get("active", True)
                 if not active:
+                    print(f"[uk.py] fetch_uk: Skipping inactive stop {item.get('atco_code') or item.get('naptan_code')}, {item.get('long_name')}", flush=True)
                     continue
 
                 normalized = {
