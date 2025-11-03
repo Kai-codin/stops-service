@@ -10,7 +10,11 @@ import zipfile
 print("[italy.py] Imports done", flush=True)
 
 ITALY_ENDPOINT = "https://s3.transitpdf.com/files/uran/improved-gtfs-rome-static-gtfs.zip"
-
+ITALY_ENDPOINTS = {
+    "Rome": "https://s3.transitpdf.com/files/uran/improved-gtfs-rome-static-gtfs.zip",
+    "Calabria": "https://s3.transitpdf.com/files/uran/improved-gtfs-core-calabria.zip",
+    "Marche": "https://s3.transitpdf.com/files/uran/improved-gtfs-mobilitadimarca2.zip"
+}
 
 async def fetch_italy(
     min_lat: Optional[float] = None,
@@ -37,41 +41,42 @@ async def fetch_italy(
         close_client = True
 
     try:
-        print(f"[italy.py] fetch_italy: Posting to {ITALY_ENDPOINT}...", flush=True)
-        resp = await client.get(ITALY_ENDPOINT)
-        resp.raise_for_status()
-        filename = ITALY_ENDPOINT.split('/')[-1]
-        with open(filename,'wb') as output_file:
-            output_file.write(resp.content)
-        print('Downloading Completed')
-
         payload = {
             "data": {
                 "stops": {}
             }
         }
-        with zipfile.ZipFile(filename, 'r') as z:
-            with z.open('stops.txt') as f:
-                for line in f:
-                    # stops.txt is a CSV file
-                    # format "stop_id","stop_code","stop_name","stop_lat","stop_lon","zone_id","stop_url","location_type","parent_station","stop_desc","stop_timezone","wheelchair_boarding","level_id","platform_code"
-                    # get stop_name, stop_lat, stop_lon
+        for city, endpoint in ITALY_ENDPOINTS.items():
+            print(f"[italy.py] fetch_italy: Posting to {city}...", flush=True)
+            resp = await client.get(endpoint)
+            resp.raise_for_status()
+            filename = endpoint.split('/')[-1]
+            with open(filename,'wb') as output_file:
+                output_file.write(resp.content)
+            print('Downloading Completed')
+            
+            with zipfile.ZipFile(filename, 'r') as z:
+                with z.open('stops.txt') as f:
+                    for line in f:
+                        # stops.txt is a CSV file
+                        # format "stop_id","stop_code","stop_name","stop_lat","stop_lon","zone_id","stop_url","location_type","parent_station","stop_desc","stop_timezone","wheelchair_boarding","level_id","platform_code"
+                        # get stop_name, stop_lat, stop_lon
 
-                    decoded_line = line.decode('utf-8').strip()
-                    if decoded_line.startswith("stop_id"):
-                        continue
-                    parts = decoded_line.split('","')
-                    if len(parts) < 5:
-                        continue
-                    stop_id = parts[0].replace('"','')
-                    stop_name = parts[2]
-                    stop_lat = parts[3]
-                    stop_lon = parts[4]
-                    payload["data"]["stops"][stop_id] = {
-                        "name": stop_name,
-                        "lat": stop_lat,
-                        "lon": stop_lon
-                    }
+                        decoded_line = line.decode('utf-8').strip()
+                        if decoded_line.startswith("stop_id"):
+                            continue
+                        parts = decoded_line.split('","')
+                        if len(parts) < 5:
+                            continue
+                        stop_id = parts[0].replace('"','')
+                        stop_name = parts[2]
+                        stop_lat = parts[3]
+                        stop_lon = parts[4]
+                        payload["data"]["stops"][stop_id] = {
+                            "name": stop_name,
+                            "lat": stop_lat,
+                            "lon": stop_lon
+                        }
 
         stops = payload.get("data", {}).get("stops", {})
         print(f"[italy.py] fetch_italy: Got {len(stops)} stops from GTFS", flush=True)
