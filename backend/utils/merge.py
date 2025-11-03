@@ -17,7 +17,16 @@ import httpx
 print("[merge.py] asyncpg and httpx imports done", flush=True)
 
 # Import your source fetchers
+# --- OPTIONAL SINGLE SOURCE MODE ---
 import sys
+
+SINGLE_SOURCE = None
+if len(sys.argv) > 1:
+    SINGLE_SOURCE = sys.argv[1].lower()
+    print(f"[merge.py] Running in single-source mode: {SINGLE_SOURCE}", flush=True)
+else:
+    print("[merge.py] Running in all-sources mode", flush=True)
+
 from pathlib import Path
 
 # DEBUG toggle: when True, fetchers should fetch small sample/page only
@@ -188,39 +197,51 @@ async def save_to_db(stops: List[Dict[str, Any]]):
 
 
 async def fetch_all_sources():
-    """Fetch all sources concurrently."""
+    """Fetch all sources concurrently, or just one if SINGLE_SOURCE is set."""
     print("[merge.py] fetch_all_sources: Starting", flush=True)
     async with httpx.AsyncClient() as client:
         print("[merge.py] fetch_all_sources: AsyncClient created", flush=True)
-        # build tasks dict dynamically (include optional sources only if available)
-        tasks = {
-            "uk": fetch_uk(client=client, debug=debug),
-            "hsl": fetch_hsl(client=client, debug=debug),
+
+        # Available fetchers
+        available = {
+            "uk": fetch_uk,
+            "hsl": fetch_hsl,
         }
         if fetch_varely:
-            tasks["varely"] = fetch_varely(client=client, debug=debug)
+            available["varely"] = fetch_varely
         if fetch_waltti:
-            tasks["waltti"] = fetch_waltti(client=client, debug=debug)
+            available["waltti"] = fetch_waltti
         if fetch_finland:
-            tasks["finland"] = fetch_finland(client=client, debug=debug)
+            available["finland"] = fetch_finland
 
-        print("[merge.py] fetch_all_sources: Awaiting tasks...", flush=True)
+        # Optionally load France if available
+        try:
+            from sources.france import fetch_france
+            available["france"] = fetch_france
+        except Exception as e:
+            print(f"[merge.py] France import skipped: {e}", flush=True)
+
+        # If single-source specified, only run that one
+        if SINGLE_SOURCE:
+            if SINGLE_SOURCE not in available:
+                raise ValueError(f"Unknown source '{SINGLE_SOURCE}'. Available: {list(available.keys())}")
+            tasks = {SINGLE_SOURCE: available[SINGLE_SOURCE](client=client, debug=debug)}
+        else:
+            tasks = {name: fn(client=client, debug=debug) for name, fn in available.items()}
+
+        print(f"[merge.py] fetch_all_sources: Fetching {list(tasks.keys())}", flush=True)
         results = await asyncio.gather(*tasks.values(), return_exceptions=True)
         print("[merge.py] fetch_all_sources: Tasks complete", flush=True)
-        merged: List[Dict[str, Any]] = []
 
+        merged: List[Dict[str, Any]] = []
         for (source, result) in zip(tasks.keys(), results):
             if isinstance(result, Exception):
-                print(f"⚠️  Error fetching {source}: {result}", flush=True)
+                print(f"⚠️ Error fetching {source}: {result}", flush=True)
                 continue
-            print(f"[merge.py] Dumping source data for {source}...", flush=True)
-            await dump_source_data(source, result)
 
-            # Ensure each returned stop has a 'source' field so normalize can use it
+            await dump_source_data(source, result)
             for item in result:
-                if "source" not in item or not item.get("source"):
-                    item["source"] = source
-                # keep created_at if provided by source, else let normalize add now
+                item.setdefault("source", source)
             merged.extend(result)
             print(f"Fetched {len(result)} stops from {source}", flush=True)
 
