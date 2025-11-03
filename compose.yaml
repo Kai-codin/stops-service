@@ -22,7 +22,7 @@ services:
       DATABASE_URL: postgresql://stops:stops_password@db:5432/stops_db
     labels:
       - traefik.enable=true
-      - traefik.http.routers.stops_api.rule=Host(`stops.kaicoding.cc`)
+      - traefik.http.routers.stops_api.rule=Host(`stops.mybustimes.cc`)
       - traefik.http.routers.stops_api.entrypoints=websecure
       - traefik.http.routers.stops_api.tls.certresolver=letsencrypt
       - traefik.http.services.stops_api.loadbalancer.server.port=8991
