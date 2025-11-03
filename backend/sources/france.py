@@ -22,10 +22,9 @@ async def fetch_france(
         client = httpx.AsyncClient(timeout=timeout)
         close_client = True
 
-    # Use smaller tiles (1°×1° grid)
-    overlap = 0.05
-    lat_ranges = [(lat - overlap, lat + 0.05 + overlap) for lat in range(41, 52)]
-    lon_ranges = [(lon - overlap, lon + 0.05 + overlap) for lon in range(-6, 10)]
+    overlap = 0.02
+    lat_ranges = [(lat, lat + 0.25) for lat in [x / 4 for x in range(41 * 4, 52 * 4)]]
+    lon_ranges = [(lon, lon + 0.25) for lon in [x / 4 for x in range(-6 * 4, 10 * 4)]]
 
     results: List[Dict[str, Any]] = []
 
