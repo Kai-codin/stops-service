@@ -132,7 +132,7 @@ def api_stops(
     xmax: float = Query(...),
     ymin: float = Query(...),
     ymax: float = Query(...),
-    limit: int = Query(1000000),
+    limit: int = Query(100000),
     offset: int = Query(0),
 ):
     """Return stops within a bounding box"""
