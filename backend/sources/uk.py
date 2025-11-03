@@ -7,7 +7,7 @@ import httpx
 print("[uk.py] Imports done", flush=True)
 
 
-UKBUSES_BASE = "https://ukbuses.org/api/stops/"
+UKBUSES_BASE = "https://ukbuses.org/api/stops/?active=true"
 
 
 async def fetch_uk(
@@ -51,6 +51,7 @@ async def fetch_uk(
                 "ymax": str(max_lat),
                 "xmin": str(min_lon),
                 "xmax": str(max_lon),
+                "active": "true"
             }
             print(f"[uk.py] fetch_uk: Using bbox params: {params}", flush=True)
 
@@ -74,11 +75,6 @@ async def fetch_uk(
                 if isinstance(loc, (list, tuple)) and len(loc) >= 2:
                     lon = float(loc[0])
                     lat = float(loc[1])
-                
-                active = item.get("active", True)
-                if not active:
-                    print(f"[uk.py] fetch_uk: Skipping inactive stop {item.get('atco_code') or item.get('naptan_code')}, {item.get('long_name')}", flush=True)
-                    continue
 
                 normalized = {
                     "id": item.get("atco_code") or item.get("naptan_code") or None,
