@@ -125,72 +125,10 @@ def api_stops(
         print(f"⚠️ Query failed: {e}", flush=True)
         return JSONResponse({"error": str(e)}, status_code=500)
 
-# --- 1️⃣ Bounding box API endpoint ---
-@app.get("/api/no-lim-stops")
-def api_stops(
-    xmin: float = Query(...),
-    xmax: float = Query(...),
-    ymin: float = Query(...),
-    ymax: float = Query(...),
-    limit: int = Query(100000),
-    offset: int = Query(0),
-):
-    """Return stops within a bounding box"""
-    print(f"[main.py] GET /api/stops bbox=({xmin},{xmax},{ymin},{ymax})", flush=True)
-    if not engine:
-        return JSONResponse({"error": "Database not configured"}, status_code=500)
-
-    try:
-        with engine.connect() as conn:
-            cols = [
-                row[0]
-                for row in conn.execute(
-                    text("""
-                        SELECT column_name
-                        FROM information_schema.columns
-                        WHERE table_name='stops';
-                    """)
-                )
-            ]
-
-            if "lon" in cols and "lat" in cols:
-                query = text("""
-                    SELECT name, bearing, lon, lat
-                    FROM stops
-                    WHERE lon BETWEEN :xmin AND :xmax
-                    AND lat BETWEEN :ymin AND :ymax
-                    ORDER BY name
-                    LIMIT :limit OFFSET :offset
-                """)
-            elif "location" in cols:
-                query = text("""
-                    SELECT name, bearing, location[1] AS lon, location[2] AS lat
-                    FROM stops
-                    WHERE location[1] BETWEEN :xmin AND :xmax
-                    AND location[2] BETWEEN :ymin AND :ymax
-                    ORDER BY name
-                    LIMIT :limit OFFSET :offset
-                """)
-            else:
-                return JSONResponse({"error": "No location columns found"}, status_code=500)
-
-            result = conn.execute(
-                query,
-                {"xmin": xmin, "xmax": xmax, "ymin": ymin, "ymax": ymax, "limit": limit, "offset": offset},
-            )
-            stops = [dict(row._mapping) for row in result]
-            print(f"[main.py] Returning {len(stops)} stops", flush=True)
-            return stops
-
-    except Exception as e:
-        print(f"⚠️ Query failed: {e}", flush=True)
-        return JSONResponse({"error": str(e)}, status_code=500)
-
-
 # --- 2️⃣ Paginated list API endpoint ---
 @app.get("/api/allstops")
 def api_all_stops(
-    limit: int = Query(200),
+    limit: int = Query(5000),
     offset: int = Query(0),
 ):
     """Return all stops paginated"""
