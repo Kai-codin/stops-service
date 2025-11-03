@@ -74,6 +74,10 @@ async def fetch_uk(
                 if isinstance(loc, (list, tuple)) and len(loc) >= 2:
                     lon = float(loc[0])
                     lat = float(loc[1])
+                
+                active = item.get("active", True)
+                if not active:
+                    continue
 
                 normalized = {
                     "id": item.get("atco_code") or item.get("naptan_code") or None,
