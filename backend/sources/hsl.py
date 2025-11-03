@@ -1,7 +1,11 @@
 # hsl.py
+print("[hsl.py] Module loading...", flush=True)
+
 from typing import List, Optional, Dict, Any
 import httpx
 import math
+
+print("[hsl.py] Imports done", flush=True)
 
 HSL_ENDPOINT = "https://api.digitransit.fi/routing/v2/hsl/gtfs/v1?digitransit-subscription-key=a1e437f79628464c9ea8d542db6f6e94"
 
@@ -22,8 +26,10 @@ async def fetch_hsl(
 
     Returns list of dicts with keys: id, name, lat, lon, bearing, source
     """
+    print("[hsl.py] fetch_hsl: Starting fetch from HSL...", flush=True)
     close_client = False
     if client is None:
+        print("[hsl.py] fetch_hsl: Creating temporary client...", flush=True)
         client = httpx.AsyncClient(timeout=timeout)
         close_client = True
 
@@ -40,11 +46,13 @@ async def fetch_hsl(
         }
         """
 
+        print(f"[hsl.py] fetch_hsl: Posting to {HSL_ENDPOINT}...", flush=True)
         resp = await client.post(HSL_ENDPOINT, json={"query": query})
         resp.raise_for_status()
         payload = resp.json()
 
         stops = payload.get("data", {}).get("stops", [])
+        print(f"[hsl.py] fetch_hsl: Got {len(stops)} stops from GraphQL", flush=True)
         results: List[Dict[str, Any]] = []
 
         # Helper: bbox check
@@ -80,8 +88,10 @@ async def fetch_hsl(
             }
             results.append(normalized)
 
+        print(f"[hsl.py] fetch_hsl: Fetched {len(results)} HSL stops", flush=True)
         return results
 
     finally:
         if close_client:
+            print("[hsl.py] fetch_hsl: Closing client...", flush=True)
             await client.aclose()

@@ -1,7 +1,11 @@
 # ukbuses.py
+print("[uk.py] Module loading...", flush=True)
+
 import asyncio
 from typing import List, Optional, Dict, Any
 import httpx
+
+print("[uk.py] Imports done", flush=True)
 
 
 UKBUSES_BASE = "https://ukbuses.org/api/stops/"
@@ -35,9 +39,10 @@ async def fetch_uk(
     -------
     list of dicts with keys: id, name, lat, lon, bearing, source
     """
-    print("Fetching UK stops from ukbuses.org...")
+    print("[uk.py] fetch_uk: Starting fetch from ukbuses.org...", flush=True)
     close_client = False
     if client is None:
+        print("[uk.py] fetch_uk: Creating temporary client...", flush=True)
         client = httpx.AsyncClient(timeout=timeout)
         close_client = True
 
@@ -51,17 +56,20 @@ async def fetch_uk(
                 "xmin": str(min_lon),
                 "xmax": str(max_lon),
             }
+            print(f"[uk.py] fetch_uk: Using bbox params: {params}", flush=True)
 
         url = UKBUSES_BASE
         results: List[Dict[str, Any]] = []
 
         while url:
+            print(f"[uk.py] fetch_uk: Fetching from {url}...", flush=True)
             resp = await client.get(url, params=params if url == UKBUSES_BASE else None)
             resp.raise_for_status()
             data = resp.json()
 
             # Expecting paginated object with "results" list and "next" link
             page_results = data.get("results", [])
+            print(f"[uk.py] fetch_uk: Got {len(page_results)} results from this page", flush=True)
             for item in page_results:
                 # Normalise: ukbuses uses "location": [lon, lat]
                 loc = item.get("location") or []
@@ -85,15 +93,17 @@ async def fetch_uk(
             # pagination: server returns "next" (full url) or None
             next_url = data.get("next")
             if not next_url:
+                print(f"[uk.py] fetch_uk: No more pages", flush=True)
                 break
 
             # Clear params for subsequent pages; 'next' already contains querystring
             url = next_url
             params = None
 
-        print(f"Fetched {len(results)} UK stops from ukbuses.org")
+        print(f"[uk.py] fetch_uk: Fetched {len(results)} UK stops from ukbuses.org", flush=True)
         return results
 
     finally:
         if close_client:
+            print("[uk.py] fetch_uk: Closing client...", flush=True)
             await client.aclose()
