@@ -24,8 +24,8 @@ async def fetch_france(
 
     # Use smaller tiles (1°×1° grid)
     overlap = 0.05
-    lat_ranges = [(lat - overlap, lat + 0.5 + overlap) for lat in range(41, 52)]
-    lon_ranges = [(lon - overlap, lon + 0.5 + overlap) for lon in range(-6, 10)]
+    lat_ranges = [(lat - overlap, lat + 0.05 + overlap) for lat in range(41, 52)]
+    lon_ranges = [(lon - overlap, lon + 0.05 + overlap) for lon in range(-6, 10)]
 
     results: List[Dict[str, Any]] = []
 
@@ -38,11 +38,14 @@ async def fetch_france(
                     print(f"[france.py] Fetching bbox {west},{south},{east},{north}", flush=True)
 
                 try:
-                    resp = await client.get(
-                        FRANCE_ENDPOINT,
-                        params=params,
-                        headers={"accept": "application/json"},
-                    )
+                    for attempt in range(3):
+                        resp = await client.get(FRANCE_ENDPOINT, params=params, headers={"accept": "application/json"})
+                        if resp.status_code == 200:
+                            break
+                        await asyncio.sleep(2)
+                    else:
+                        print(f"[france.py] ❌ Failed after 3 retries: {west},{south},{east},{north}")
+                        continue
 
                     if resp.status_code == 422:
                         print(f"[france.py] ⚠️ Invalid bbox {west},{south},{east},{north}", flush=True)
