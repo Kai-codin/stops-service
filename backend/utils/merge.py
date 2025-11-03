@@ -35,39 +35,6 @@ debug = False
 # Add project root to import path (so "sources.*" imports work)
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-print("[merge.py] About to import fetch_uk...", flush=True)
-from sources.uk import fetch_uk
-print("[merge.py] fetch_uk imported", flush=True)
-
-print("[merge.py] About to import fetch_hsl...", flush=True)
-from sources.hsl import fetch_hsl
-print("[merge.py] fetch_hsl imported", flush=True)
-
-# Optional additional sources; if you don't want them yet you can comment out
-try:
-    print("[merge.py] About to import fetch_varely...", flush=True)
-    from sources.varely import fetch_varely
-    print("[merge.py] fetch_varely imported", flush=True)
-except Exception:
-    print("[merge.py] fetch_varely import skipped/not found", flush=True)
-    fetch_varely = None
-
-try:
-    print("[merge.py] About to import fetch_waltti...", flush=True)
-    from sources.waltti import fetch_waltti
-    print("[merge.py] fetch_waltti imported", flush=True)
-except Exception:
-    print("[merge.py] fetch_waltti import skipped/not found", flush=True)
-    fetch_waltti = None
-
-try:
-    print("[merge.py] About to import fetch_finland...", flush=True)
-    from sources.finland import fetch_finland
-    print("[merge.py] fetch_finland imported", flush=True)
-except Exception:
-    print("[merge.py] fetch_finland import skipped/not found", flush=True)
-    fetch_finland = None
-
 # --- CONFIG ---
 print("[merge.py] Config section starting...", flush=True)
 DATA_DIR = Path("data")
@@ -147,7 +114,8 @@ def normalize_for_db(stop: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-async def save_to_db(stops: List[Dict[str, Any]]):
+async def save_to_db(stops: List[Dict[str, Any]], source_only: str = None):
+    print(f"[merge.py] save_to_db: source_only={source_only}", flush=True)
     """Insert merged stops into PostgreSQL"""
     print(f"[merge.py] save_to_db: connecting to {DB_DSN}", flush=True)
     conn = await asyncpg.connect(DB_DSN)
@@ -171,9 +139,14 @@ async def save_to_db(stops: List[Dict[str, Any]]):
     print("Ensured stops table exists", flush=True)
 
     # Clear old data (optional)
-    print(f"[merge.py] Truncating stops table...", flush=True)
-    await conn.execute("TRUNCATE TABLE stops;")
-    print("Truncated stops table", flush=True)
+    if source_only:
+        print(f"[merge.py] Deleting existing stops from source '{source_only}'...", flush=True)
+        await conn.execute("DELETE FROM stops WHERE source = $1;", source_only)
+        print(f"Deleted existing stops from source '{source_only}'", flush=True)
+    else:
+        print(f"[merge.py] Truncating stops table...", flush=True)
+        await conn.execute("TRUNCATE TABLE stops;")
+        print("Truncated stops table", flush=True)
 
     # Prepare records for insert: ensure location values are proper numeric tuples
     records = []
@@ -203,18 +176,38 @@ async def fetch_all_sources():
         print("[merge.py] fetch_all_sources: AsyncClient created", flush=True)
 
         # Available fetchers
-        available = {
-            "uk": fetch_uk,
-            "hsl": fetch_hsl,
-        }
-        if fetch_varely:
-            available["varely"] = fetch_varely
-        if fetch_waltti:
-            available["waltti"] = fetch_waltti
-        if fetch_finland:
-            available["finland"] = fetch_finland
+        available = {}
 
-        # Optionally load France if available
+        try:
+            from sources.hsl import fetch_hsl
+            available["hsl"] = fetch_hsl
+        except Exception as e:
+            print(f"[merge.py] HSL import skipped: {e}", flush=True)
+
+        try:
+            from sources.uk import fetch_uk
+            available["uk"] = fetch_uk
+        except Exception as e:
+            print(f"[merge.py] UK import skipped: {e}", flush=True)
+
+        try:
+            from sources.varely import fetch_varely
+            available["varely"] = fetch_varely
+        except Exception as e:
+            print(f"[merge.py] Varely import skipped: {e}", flush=True)
+
+        try:
+            from sources.finland import fetch_finland
+            available["finland"] = fetch_finland
+        except Exception as e:
+            print(f"[merge.py] Finland import skipped: {e}", flush=True)
+
+        try:
+            from sources.waltti import fetch_waltti
+            available["waltti"] = fetch_waltti
+        except Exception as e:
+            print(f"[merge.py] Waltti import skipped: {e}", flush=True)
+
         try:
             from sources.france import fetch_france
             available["france"] = fetch_france
@@ -271,7 +264,7 @@ async def main():
     print(f"[merge.py] Normalized {len(normalized)} stops", flush=True)
 
     print(f"[merge.py] Saving to DB...", flush=True)
-    await save_to_db(normalized)
+    await save_to_db(normalized, source_only=SINGLE_SOURCE)
     print("✅ Merge complete.", flush=True)
 
 
