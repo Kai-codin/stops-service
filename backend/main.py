@@ -7,11 +7,24 @@ from fastapi.templating import Jinja2Templates
 import os
 import sqlalchemy
 from sqlalchemy import text
+from fastapi.middleware.cors import CORSMiddleware
 
 print("[main.py] Imports done", flush=True)
 
 app = FastAPI(title="Stops API")
 print("[main.py] FastAPI app created", flush=True)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:8000",  # local dev frontend
+        "https://stops.mybustimes.cc",  # production frontend
+        "https://mybustimes.cc",  # optional main domain
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Database URL
 DATABASE_URL = os.getenv("DATABASE_URL")
