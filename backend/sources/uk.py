@@ -77,7 +77,7 @@ async def fetch_uk(
 
                 normalized = {
                     "id": item.get("atco_code") or item.get("naptan_code") or None,
-                    "name": item.get("name") or item.get("common_name") or item.get("long_name") or "",
+                    "name": item.get("long_name"),
                     "lat": lat,
                     "lon": lon,
                     "bearing": item.get("bearing", "") or "",
