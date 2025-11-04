@@ -21,6 +21,7 @@ app.add_middleware(
         "https://stops.mybustimes.cc",  # production frontend
         "https://mybustimes.cc",  # optional main domain
         "https://www.mybustimes.cc",  # optional www domain
+        "https://local-dev.mybustimes.cc",  # local dev frontend (React)
     ],
     allow_credentials=True,
     allow_methods=["*"],
