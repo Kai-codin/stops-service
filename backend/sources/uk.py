@@ -55,7 +55,7 @@ async def fetch_uk(
             }
             print(f"[uk.py] fetch_uk: Using bbox params: {params}", flush=True)
 
-        url = UKBUSES_BASE + "?active=true&no_inactive=true&contains_delete=true"
+        url = UKBUSES_BASE + "?no_inactive=true&contains_delete=true"
         results: List[Dict[str, Any]] = []
         page = 1
 
