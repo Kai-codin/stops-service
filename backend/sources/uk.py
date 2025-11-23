@@ -40,7 +40,7 @@ async def fetch_uk(
     close_client = False
     if client is None:
         print("[uk.py] fetch_uk: Creating temporary client...", flush=True)
-        client = httpx.AsyncClient(timeout=timeout)
+        client = httpx.AsyncClient(timeout=timeout,follow_redirects=True,limits=httpx.Limits(max_redirects=5),transport=httpx.AsyncHTTPTransport(verify=True,trust_env=True,allow_redirects=True,),)
         close_client = True
 
     try:
@@ -92,6 +92,11 @@ async def fetch_uk(
                 break
 
             next_url = data.get("next")
+            # Fix insecure redirect returned by the API
+            if next_url and next_url.startswith("http://ukbuses.org"):
+                print("[uk.py] fetch_uk: Rewriting API next URL to HTTPS", flush=True)
+                next_url = next_url.replace("http://", "https://")
+
             if not next_url:
                 print(f"[uk.py] fetch_uk: No more pages", flush=True)
                 break
