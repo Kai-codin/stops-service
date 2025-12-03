@@ -216,7 +216,8 @@ def data_page():
                 "VARELY": "https://api.digitransit.fi/routing/v2/varely/gtfs/v1",
                 "Waltti": "https://api.digitransit.fi/routing/v2/waltti/gtfs/v1",
                 "France": "https://transport.data.gouv.fr/api/gtfs-stops",
-                "Italy": "https://busmaps.com/en/italy/feedlist"
+                "Italy": "https://busmaps.com/en/italy/feedlist",
+                "Slovakia": "https://busmaps.com/en/slovakia/feedlist"
             }
 
             for source, url in source_urls.items():
