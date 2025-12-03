@@ -14,20 +14,6 @@ print("[main.py] Imports done", flush=True)
 app = FastAPI(title="Stops API")
 print("[main.py] FastAPI app created", flush=True)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:8000",  # local dev frontend
-        "https://stops.mybustimes.cc",  # production frontend
-        "https://mybustimes.cc",  # optional main domain
-        "https://www.mybustimes.cc",  # optional www domain
-        "https://local-dev.mybustimes.cc",  # local dev frontend (React)
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 # Database URL
 DATABASE_URL = os.getenv("DATABASE_URL")
 engine = None
@@ -64,6 +50,21 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 print("[main.py] Frontend setup complete", flush=True)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:8000",  # local dev frontend
+        "https://stops.mybustimes.cc",  # production frontend
+        "https://mybustimes.cc",  # optional main domain
+        "https://www.mybustimes.cc",  # optional www domain
+        "https://test.mybustimes.cc",  # optional www domain
+        "https://dev.mybustimes.cc",  # optional www domain
+        "https://local-dev.mybustimes.cc",  # local dev frontend (React)
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # --- 1️⃣ Bounding box API endpoint ---
 @app.get("/api/stops")
