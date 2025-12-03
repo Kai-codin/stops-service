@@ -217,7 +217,8 @@ def data_page():
                 "Waltti": "https://api.digitransit.fi/routing/v2/waltti/gtfs/v1",
                 "France": "https://transport.data.gouv.fr/api/gtfs-stops",
                 "Italy": "https://busmaps.com/en/italy/feedlist",
-                "Slovakia": "https://busmaps.com/en/slovakia/feedlist"
+                "Slovakia": "https://busmaps.com/en/slovakia/feedlist",
+                "Poland": "https://busmaps.com/en/poland/feedlist",
             }
 
             for source, url in source_urls.items():
