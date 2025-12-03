@@ -10,6 +10,7 @@ import zipfile
 print("[slovakia.py] Imports done", flush=True)
 
 slovakia_ENDPOINTS = {
+    "https://s3.transitpdf.com/files/uran/improved-gtfs-bratislava-sk.zip",
     "https://s3.transitpdf.com/files/uran/improved-gtfs-zsr.zip"
 }
 
