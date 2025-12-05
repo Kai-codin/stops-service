@@ -219,6 +219,7 @@ def data_page():
                 "Italy": "https://busmaps.com/en/italy/feedlist",
                 "Slovakia": "https://busmaps.com/en/slovakia/feedlist",
                 "Poland": "https://busmaps.com/en/poland/feedlist",
+                "Greece": "https://busmaps.com/en/greece/feedlist",
             }
 
             for source, url in source_urls.items():

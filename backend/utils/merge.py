@@ -9,6 +9,8 @@ from pathlib import Path
 from typing import List, Dict, Any
 import logging
 
+from backend.sources.greece import fetch_greece
+
 print("[merge.py] Standard library imports done", flush=True)
 
 import asyncpg
@@ -237,6 +239,12 @@ async def fetch_all_sources():
             available["poland"] = fetch_poland
         except Exception as e:
             print(f"[merge.py] Poland import skipped: {e}", flush=True)
+
+        try:
+            from sources.greece import fetch_greece
+            available["greece"] = fetch_greece
+        except Exception as e:
+            print(f"[merge.py] Greece import skipped: {e}", flush=True)
 
         # If single-source specified, only run that one
         if SINGLE_SOURCE:
