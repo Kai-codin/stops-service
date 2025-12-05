@@ -9,8 +9,6 @@ from pathlib import Path
 from typing import List, Dict, Any
 import logging
 
-from backend.sources.greece import fetch_greece
-
 print("[merge.py] Standard library imports done", flush=True)
 
 import asyncpg
