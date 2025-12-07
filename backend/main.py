@@ -220,6 +220,7 @@ def data_page():
                 "Slovakia": "https://busmaps.com/en/slovakia/feedlist",
                 "Poland": "https://busmaps.com/en/poland/feedlist",
                 "Greece": "https://busmaps.com/en/greece/feedlist",
+                "Switzerland": "https://data.oev-info.ch/explore/dataset/stop-points-today/",
             }
 
             for source, url in source_urls.items():
