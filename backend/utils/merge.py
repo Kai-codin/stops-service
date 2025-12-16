@@ -268,6 +268,13 @@ async def fetch_all_sources():
         except Exception as e:
             print(f"[merge.py] Netherlands import skipped: {e}", flush=True)
 
+        try:
+            from sources.luxembourg import fetch_luxembourg
+            available["luxembourg"] = fetch_luxembourg
+        except Exception as e:
+            print(f"[merge.py] Luxembourg import skipped: {e}", flush=True)
+            
+
         # If single-source specified, only run that one
         if SINGLE_SOURCE:
             if SINGLE_SOURCE not in available:

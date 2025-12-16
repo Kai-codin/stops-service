@@ -224,6 +224,7 @@ def data_page():
                 "Jersey": "https://github.com/jclgoodwin/bustimes.org/blob/main/busstops/jersey-bus-stops.json",
                 "Germany": "https://download.gtfs.de/germany/free/latest.zip",
                 "Netherlands": "https://gtfs.ovapi.nl/nl/",
+                "Luxembourg": "https://data.public.lu/en/datasets/horaires-et-arrets-des-transport-publics-gtfs/",
             }
 
             for source, url in source_urls.items():
