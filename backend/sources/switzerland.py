@@ -83,7 +83,7 @@ async def fetch_switzerland(
                 "lat": lat,
                 "lon": lon,
                 "bearing": "",       # no bearing info in JSON
-                "source": "switzerland-json",
+                "source": "switzerland",
             }
 
             results.append(normalized)

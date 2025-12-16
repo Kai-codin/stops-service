@@ -123,7 +123,7 @@ async def fetch_slovakia(
                 continue
             
             normalized = {
-                "id": s.get("gtfsId"),
+                "id": s.get("stop_id") or None,
                 "name": s.get("name") or "",
                 "lat": lat,
                 "lon": lon,
