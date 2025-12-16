@@ -223,6 +223,7 @@ def data_page():
                 "Switzerland": "https://data.oev-info.ch/explore/dataset/stop-points-today/",
                 "Jersey": "https://github.com/jclgoodwin/bustimes.org/blob/main/busstops/jersey-bus-stops.json",
                 "Germany": "https://download.gtfs.de/germany/free/latest.zip",
+                "Netherlands": "https://gtfs.ovapi.nl/nl/",
             }
 
             for source, url in source_urls.items():
