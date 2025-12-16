@@ -225,6 +225,7 @@ def data_page():
                 "Germany": "https://download.gtfs.de/germany/free/latest.zip",
                 "Netherlands": "https://gtfs.ovapi.nl/nl/",
                 "Luxembourg": "https://data.public.lu/en/datasets/horaires-et-arrets-des-transport-publics-gtfs/",
+                "Sweden": "https://api.resrobot.se/v2.1/gtfs/sweden.zip",
             }
 
             for source, url in source_urls.items():
