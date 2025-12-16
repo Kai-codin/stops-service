@@ -222,6 +222,7 @@ def data_page():
                 "Greece": "https://busmaps.com/en/greece/feedlist",
                 "Switzerland": "https://data.oev-info.ch/explore/dataset/stop-points-today/",
                 "Jersey": "https://github.com/jclgoodwin/bustimes.org/blob/main/busstops/jersey-bus-stops.json",
+                "Germany": "https://download.gtfs.de/germany/free/latest.zip",
             }
 
             for source, url in source_urls.items():
