@@ -210,7 +210,7 @@ def data_page():
             # Create data sources list with actual counts
             data_sources = []
             source_urls = {
-                "UK": "https://ukbuses.org/api/stops/",
+                "UK": "https://bustimes.org/api/stops/",
                 "Finland": "https://api.digitransit.fi/routing/v2/finland/gtfs/v1",
                 "HSL": "https://api.digitransit.fi/routing/v2/hsl/gtfs/v1",
                 "VARELY": "https://api.digitransit.fi/routing/v2/varely/gtfs/v1",

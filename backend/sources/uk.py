@@ -7,8 +7,8 @@ import httpx
 print("[uk.py] Imports done", flush=True)
 
 
-UKBUSES_BASE = "https://ukbuses.org/api/stops/"
-
+#UKBUSES_BASE = "https://ukbuses.org/api/stops/"
+UKBUSES_BASE = "https://bustimes.org/api/stops/"
 
 async def fetch_uk(
     min_lat: Optional[float] = None,
@@ -55,7 +55,7 @@ async def fetch_uk(
             }
             print(f"[uk.py] fetch_uk: Using bbox params: {params}", flush=True)
 
-        url = UKBUSES_BASE + "?no_inactive=true&contains_delete=true"
+        url = UKBUSES_BASE # + "?no_inactive=true&contains_delete=true"
         results: List[Dict[str, Any]] = []
         page = 1
 
