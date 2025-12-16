@@ -47,7 +47,7 @@ The service currently aggregates data from the following sources:
 
 Some data sources require API keys. Create a file named `apikey.env` in the `backend/sources/` directory to store these keys.
 
-**File:** `backend/sources/apikey.env`
+**File:** `backend/sources/.env`
 
 ```env
 SWEDEN_KEY=your_sweden_api_key_here
