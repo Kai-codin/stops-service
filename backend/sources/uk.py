@@ -93,7 +93,8 @@ async def fetch_uk(
 
             next_url = data.get("next")
             # Fix insecure redirect returned by the API
-            if next_url and next_url.startswith("http://ukbuses.org"):
+            #if next_url and next_url.startswith("http://ukbuses.org"):
+            if next_url and next_url.startswith("http://bustimes.org"):
                 print("[uk.py] fetch_uk: Rewriting API next URL to HTTPS", flush=True)
                 next_url = next_url.replace("http://", "https://")
 
