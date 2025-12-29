@@ -1112,6 +1112,94 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000151",
+    "name": "Rue des Fosses, Westbound",
+    "lat": 49.431619,
+    "lon": -2.611771,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000152",
+    "name": "Route de la Tourelle, Eastbound",
+    "lat": 49.435555,
+    "lon": -2.62097,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000154",
+    "name": "Rue du Gron, Northbound",
+    "lat": 49.438734,
+    "lon": -2.608575,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000155",
+    "name": "La Route des Piques, Northbound",
+    "lat": 49.441275,
+    "lon": -2.609799,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000156",
+    "name": "Sous L'Eglise, Northbound",
+    "lat": 49.444335,
+    "lon": -2.614438,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000157",
+    "name": "Route des Sous L'Eglise, Northbound",
+    "lat": 49.443358,
+    "lon": -2.617131,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000158",
+    "name": "Longfrie, Southbound",
+    "lat": 49.43781,
+    "lon": -2.627171,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000159",
+    "name": "St. Peter's Food Hall, Eastbound",
+    "lat": 49.435818,
+    "lon": -2.621962,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000160",
+    "name": "Route de Plaisance, Eastbound",
+    "lat": 49.434685,
+    "lon": -2.619238,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000161",
+    "name": "Rue des Heches, Eastbound",
+    "lat": 49.433421,
+    "lon": -2.615409,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000162",
+    "name": "Rue des Fosses, Eastbound",
+    "lat": 49.431918,
+    "lon": -2.612143,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000163",
     "name": "Les Landes Garage, Eastbound",
     "lat": 49.430092,
@@ -1592,6 +1680,134 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000228",
+    "name": "La Planque, Westbound",
+    "lat": 49.438848,
+    "lon": -2.606958,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000229",
+    "name": "Goldsmiths, Westbound",
+    "lat": 49.43688,
+    "lon": -2.610707,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000230",
+    "name": "St. Peter's Food Hall, Westbound",
+    "lat": 49.4357,
+    "lon": -2.622104,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000231",
+    "name": "Longfrie, Northbound",
+    "lat": 49.437674,
+    "lon": -2.627154,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000232",
+    "name": "Les Sages, Eastbound",
+    "lat": 49.435274,
+    "lon": -2.636296,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000233",
+    "name": "Rocque du Coudre, Eastbound",
+    "lat": 49.436252,
+    "lon": -2.639982,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000234",
+    "name": "Rue des Clercs, Eastbound",
+    "lat": 49.436373,
+    "lon": -2.642329,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000235",
+    "name": "Le Coudre, Eastbound",
+    "lat": 49.439524,
+    "lon": -2.64885,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000236",
+    "name": "Route de Rocquaine, Northbound",
+    "lat": 49.442555,
+    "lon": -2.649889,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000237",
+    "name": "Route du Port Slipway, Northbound",
+    "lat": 49.444883,
+    "lon": -2.649371,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000238",
+    "name": "La Saline, Northbound",
+    "lat": 49.446677,
+    "lon": -2.649332,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000239",
+    "name": "Route de la Rocque Poisson, Northbound",
+    "lat": 49.450208,
+    "lon": -2.649826,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000240",
+    "name": "L'Eree Hotel, Northbound",
+    "lat": 49.452926,
+    "lon": -2.650264,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000241",
+    "name": "L'Eree Bunker, Northbound",
+    "lat": 49.454641,
+    "lon": -2.652808,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000242",
+    "name": "La Felconte, Eastbound",
+    "lat": 49.454071,
+    "lon": -2.64591,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000243",
+    "name": "Les Grands Moulins, Eastbound",
+    "lat": 49.458339,
+    "lon": -2.607839,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000244",
     "name": "Fleur du Jardin, Eastbound",
     "lat": 49.458173,
@@ -2008,6 +2224,94 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000298",
+    "name": "Les Grands Moulins, Westbound",
+    "lat": 49.458269,
+    "lon": -2.608128,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000299",
+    "name": "Le Mont Saint Garage, Westbound",
+    "lat": 49.456819,
+    "lon": -2.624206,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000300",
+    "name": "Le Mont Saint, Westbound",
+    "lat": 49.456678,
+    "lon": -2.627102,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000301",
+    "name": "St. Saviour's Tavern, Westbound",
+    "lat": 49.456426,
+    "lon": -2.629228,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000302",
+    "name": "St. Apolline's Chapel, Westbound",
+    "lat": 49.456866,
+    "lon": -2.633112,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000303",
+    "name": "Les Rouvets, Westbound",
+    "lat": 49.45596,
+    "lon": -2.637807,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000304",
+    "name": "Ruette du Felconte, Westbound",
+    "lat": 49.454735,
+    "lon": -2.643023,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000305",
+    "name": "La Felconte, Westbound",
+    "lat": 49.453825,
+    "lon": -2.64589,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000306",
+    "name": "Rue du Lorier, Southbound",
+    "lat": 49.44842,
+    "lon": -2.637459,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000307",
+    "name": "Les Islets Estate, Southbound",
+    "lat": 49.440212,
+    "lon": -2.629252,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000308",
+    "name": "La Planque, Easttbound",
+    "lat": 49.438939,
+    "lon": -2.606986,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000309",
     "name": "Bas Courtils Estate, Eastbound",
     "lat": 49.439715,
@@ -2244,6 +2548,14 @@
     "name": "Mont Cuet Crossroads, Northbound",
     "lat": 49.498148,
     "lon": -2.5346,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000339",
+    "name": "Pembroke Bay",
+    "lat": 49.504479,
+    "lon": -2.534075,
     "bearing": "",
     "source": "guernsey"
   },
@@ -2760,6 +3072,238 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000405",
+    "name": "Rue du Manoir, Westbound",
+    "lat": 49.426041,
+    "lon": -2.610736,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000406",
+    "name": "La Route Bruliaux, Westbound",
+    "lat": 49.425084,
+    "lon": -2.615005,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000407",
+    "name": "Rue de la Palloterie, Westbound",
+    "lat": 49.425179,
+    "lon": -2.61814,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000408",
+    "name": "Rue des Corbinets, Westbound",
+    "lat": 49.425109,
+    "lon": -2.623657,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000409",
+    "name": "Rue des Mares, Westbound",
+    "lat": 49.425739,
+    "lon": -2.627143,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000410",
+    "name": "Rue des Laurens, Westbound",
+    "lat": 49.42665,
+    "lon": -2.63207,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000411",
+    "name": "Torteval Garage, Westbound",
+    "lat": 49.427556,
+    "lon": -2.634698,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000412",
+    "name": "Torteval Church, Westbound",
+    "lat": 49.429347,
+    "lon": -2.644332,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000413",
+    "name": "Route de Pleinmont, Westbound",
+    "lat": 49.429487,
+    "lon": -2.648305,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000414",
+    "name": "La Hougue Anthan, Westbound",
+    "lat": 49.428535,
+    "lon": -2.652987,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000415",
+    "name": "Mont Herault, Westbound",
+    "lat": 49.429117,
+    "lon": -2.656974,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000416",
+    "name": "Rue des Portelettes, Northbound",
+    "lat": 49.429095,
+    "lon": -2.658839,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000417",
+    "name": "Pleinmont Hill, Northbound",
+    "lat": 49.431142,
+    "lon": -2.658085,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000418",
+    "name": "Pleinmont, Northbound",
+    "lat": 49.434083,
+    "lon": -2.66017,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000419",
+    "name": "Rue du Hurel, Eastbound",
+    "lat": 49.434827,
+    "lon": -2.656787,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000420",
+    "name": "Rue de la Lague, Eastbound",
+    "lat": 49.436501,
+    "lon": -2.654318,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000421",
+    "name": "Les Clercs, Northbound",
+    "lat": 49.438074,
+    "lon": -2.653448,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000422",
+    "name": "Fort Grey, Northbound",
+    "lat": 49.438979,
+    "lon": -2.65359,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000423",
+    "name": "Fort Saumarez, Northbound",
+    "lat": 49.456968,
+    "lon": -2.65366,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000424",
+    "name": "Shingle Bank Nature Reserve, Eastbound",
+    "lat": 49.458687,
+    "lon": -2.649426,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000425",
+    "name": "La Rocques, Eastbound",
+    "lat": 49.460218,
+    "lon": -2.647084,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000426",
+    "name": "Le Croix Martin, Eastbound",
+    "lat": 49.460307,
+    "lon": -2.644841,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000427",
+    "name": "Route de la Perelle, Eastbound",
+    "lat": 49.460974,
+    "lon": -2.632586,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000428",
+    "name": "Fort Richmond, Eastbound",
+    "lat": 49.462967,
+    "lon": -2.630914,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000429",
+    "name": "Rue de la Maladerie, Eastbound",
+    "lat": 49.462709,
+    "lon": -2.627433,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000430",
+    "name": "Rue du Crocq, Eastbound",
+    "lat": 49.463594,
+    "lon": -2.624062,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000431",
+    "name": "Richmond Kiosk, Eastbound",
+    "lat": 49.463586,
+    "lon": -2.616421,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000432",
+    "name": "La Grande Mare Hotel, Eastbound",
+    "lat": 49.46624,
+    "lon": -2.608708,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000433",
+    "name": "Vazon Coast Road, Eastbound",
+    "lat": 49.468509,
+    "lon": -2.606514,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000434",
     "name": "Port Soif, Eastbound",
     "lat": 49.487811,
@@ -2908,6 +3452,230 @@
     "name": "Port Soif, Westbound",
     "lat": 49.48766,
     "lon": -2.577407,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000453",
+    "name": "Vazon Coast Road, Westbound",
+    "lat": 49.468569,
+    "lon": -2.606238,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000454",
+    "name": "La Grande Mare Hotel, Westbound",
+    "lat": 49.466114,
+    "lon": -2.608708,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000455",
+    "name": "Richmond Kiosk, Westbound",
+    "lat": 49.463578,
+    "lon": -2.616018,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000456",
+    "name": "Rue de la Maladerie, Westbound",
+    "lat": 49.462617,
+    "lon": -2.627873,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000457",
+    "name": "Fort Richmond, Westbound",
+    "lat": 49.462906,
+    "lon": -2.630599,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000458",
+    "name": "Route de la Perelle, Westbound",
+    "lat": 49.461037,
+    "lon": -2.632253,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000459",
+    "name": "Rue du Catioroc, Westbound",
+    "lat": 49.458509,
+    "lon": -2.637696,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000460",
+    "name": "L'Eree Hotel, Southbound",
+    "lat": 49.453138,
+    "lon": -2.650164,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000461",
+    "name": "Route de la Rocque Poisson, Southbound",
+    "lat": 49.450572,
+    "lon": -2.649761,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000462",
+    "name": "La Saline, Southbound",
+    "lat": 49.44661,
+    "lon": -2.649102,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000463",
+    "name": "Route du Port, Southbound",
+    "lat": 49.444538,
+    "lon": -2.648995,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000464",
+    "name": "Route de Rocquaine, Southbound",
+    "lat": 49.442179,
+    "lon": -2.649982,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000465",
+    "name": "Fort Grey, Southbound",
+    "lat": 49.439321,
+    "lon": -2.65297,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000466",
+    "name": "Les Clercs, Southbound",
+    "lat": 49.437955,
+    "lon": -2.653276,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000467",
+    "name": "Rue de la Lague, Westbound",
+    "lat": 49.436387,
+    "lon": -2.654244,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000468",
+    "name": "Rue du Hurel, Westbound",
+    "lat": 49.43446,
+    "lon": -2.657232,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000469",
+    "name": "Pleinmont Hill, Southbound",
+    "lat": 49.430967,
+    "lon": -2.65791,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000470",
+    "name": "Mont Herault, Eastbound",
+    "lat": 49.429247,
+    "lon": -2.657012,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000471",
+    "name": "La Hougue Anthan, Eastbound",
+    "lat": 49.428676,
+    "lon": -2.65233,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000472",
+    "name": "Route de Pleinmont, Eastbound",
+    "lat": 49.429609,
+    "lon": -2.648053,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000473",
+    "name": "Torteval Church, Eastbound",
+    "lat": 49.429066,
+    "lon": -2.643144,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000474",
+    "name": "Torteval Garage, Eastbound",
+    "lat": 49.427416,
+    "lon": -2.634469,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000475",
+    "name": "Rue des Laurens, Eastbound",
+    "lat": 49.426716,
+    "lon": -2.63181,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000476",
+    "name": "Rue des Mares, Eastbound",
+    "lat": 49.425835,
+    "lon": -2.626989,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000477",
+    "name": "Rue des Corbinets, Eastbound",
+    "lat": 49.425163,
+    "lon": -2.623494,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000478",
+    "name": "Rue de la Palloterie, Eastbound",
+    "lat": 49.425235,
+    "lon": -2.618669,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000479",
+    "name": "La Route Bruliaux, Eastbound",
+    "lat": 49.425335,
+    "lon": -2.614519,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000480",
+    "name": "Rue du Manoir, Eastbound",
+    "lat": 49.426168,
+    "lon": -2.61068,
     "bearing": "",
     "source": "guernsey"
   },
@@ -3392,6 +4160,22 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000553",
+    "name": "Rouvets des Bas, Eastbound",
+    "lat": 49.456971,
+    "lon": -2.636613,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000554",
+    "name": "Rue du Felconte, Eastbound",
+    "lat": 49.455429,
+    "lon": -2.640071,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000555",
     "name": "Four Cabot, Westbound",
     "lat": 49.446035,
@@ -3512,10 +4296,122 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000572",
+    "name": "St. Apolline's Chapel, Eastbound",
+    "lat": 49.456914,
+    "lon": -2.632966,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000574",
+    "name": "St. Saviour's Tavern, Eastbound",
+    "lat": 49.456548,
+    "lon": -2.629791,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000575",
     "name": "Ronez Quarry, Eastbound",
     "lat": 49.495459,
     "lon": -2.565121,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000576",
+    "name": "Rue St. Pierre, Westbound",
+    "lat": 49.438441,
+    "lon": -2.626834,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000577",
+    "name": "Rue St. Pierre, Eastbound",
+    "lat": 49.438561,
+    "lon": -2.626732,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000578",
+    "name": "St. Saviour's Church, Westbound",
+    "lat": 49.445367,
+    "lon": -2.613732,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000579",
+    "name": "La Route des Piques, Southbound",
+    "lat": 49.440993,
+    "lon": -2.609674,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000580",
+    "name": "Route des Domaines, Eastbound",
+    "lat": 49.440613,
+    "lon": -2.621053,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000581",
+    "name": "Route des Domaines, Westbound",
+    "lat": 49.440592,
+    "lon": -2.620973,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000582",
+    "name": "Les Roberts, Northbound",
+    "lat": 49.442676,
+    "lon": -2.618344,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000583",
+    "name": "Perelle Bay, Eastbound",
+    "lat": 49.458873,
+    "lon": -2.635791,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000584",
+    "name": "Perelle Bay, Westbound",
+    "lat": 49.459402,
+    "lon": -2.634568,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000585",
+    "name": "Le Gele Clos, Southbound",
+    "lat": 49.463733,
+    "lon": -2.612918,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000586",
+    "name": "Le Gele, Southbound",
+    "lat": 49.461652,
+    "lon": -2.612702,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000587",
+    "name": "Le Gele Road, Southbound",
+    "lat": 49.459236,
+    "lon": -2.611284,
     "bearing": "",
     "source": "guernsey"
   },
@@ -3552,6 +4448,78 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000592",
+    "name": "Rue Rocheuse, Southbound",
+    "lat": 49.452325,
+    "lon": -2.6418,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000595",
+    "name": "Rue Rocheuse, Northbound",
+    "lat": 49.452055,
+    "lon": -2.641577,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000596",
+    "name": "Rue de L'Arquet, Southbound",
+    "lat": 49.450375,
+    "lon": -2.639287,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000597",
+    "name": "Rue de L'Arquet, Northbound",
+    "lat": 49.45021,
+    "lon": -2.639253,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000598",
+    "name": "Route des Paysans, Southbound",
+    "lat": 49.447225,
+    "lon": -2.636852,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000599",
+    "name": "Route des Paysans, Northbound",
+    "lat": 49.447143,
+    "lon": -2.636889,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000600",
+    "name": "L'Eclet, Northbound",
+    "lat": 49.44332,
+    "lon": -2.633225,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000601",
+    "name": "L'Eclet, Southbound",
+    "lat": 49.443374,
+    "lon": -2.63305,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000602",
+    "name": "Carmel Chapel, Southbound",
+    "lat": 49.444259,
+    "lon": -2.610676,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000603",
     "name": "Trinity Square, Southbound",
     "lat": 49.451893,
@@ -3572,6 +4540,14 @@
     "name": "Oatlands Centre, Westbound",
     "lat": 49.485723,
     "lon": -2.542901,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000607",
+    "name": "St. Saviour's Church, Eastbound",
+    "lat": 49.445444,
+    "lon": -2.613306,
     "bearing": "",
     "source": "guernsey"
   },
@@ -3776,6 +4752,126 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000652",
+    "name": "Route de Farras, Westbound",
+    "lat": 49.430549,
+    "lon": -2.607803,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000653",
+    "name": "Rue des Heches, Westbound",
+    "lat": 49.433255,
+    "lon": -2.615356,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000654",
+    "name": "Route de Plaisance, Westbound",
+    "lat": 49.434747,
+    "lon": -2.619631,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000655",
+    "name": "Les Islets Estate, Northbound",
+    "lat": 49.439854,
+    "lon": -2.62933,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000656",
+    "name": "Venture Garage, Northbound",
+    "lat": 49.441375,
+    "lon": -2.629767,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000657",
+    "name": "Route des Clos Landais, Northbound",
+    "lat": 49.443923,
+    "lon": -2.629327,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000658",
+    "name": "Courtil Michele Estate, Northbound",
+    "lat": 49.449087,
+    "lon": -2.630885,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000659",
+    "name": "Le Frie Baton, Northbound",
+    "lat": 49.451047,
+    "lon": -2.630394,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000660",
+    "name": "Rue de la Bataille, Northbound",
+    "lat": 49.454849,
+    "lon": -2.629644,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000661",
+    "name": "Le Mont Saint, Eastbound",
+    "lat": 49.45721,
+    "lon": -2.626312,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000662",
+    "name": "Rue du Dos d'Ane",
+    "lat": 49.457268,
+    "lon": -2.621554,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000663",
+    "name": "Ruette du Rochers",
+    "lat": 49.458376,
+    "lon": -2.616439,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000664",
+    "name": "Le Gele, Northbound",
+    "lat": 49.461812,
+    "lon": -2.612762,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000665",
+    "name": "Le Gele Clos, Northbound",
+    "lat": 49.463728,
+    "lon": -2.613046,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000666",
+    "name": "Waves Hotel, Eastbound",
+    "lat": 49.464726,
+    "lon": -2.611849,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000667",
     "name": "Sous les Courtils, Southbound",
     "lat": 49.470903,
@@ -3820,6 +4916,14 @@
     "name": "Rue de la Hurette, Southbound",
     "lat": 49.45811,
     "lon": -2.604008,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000678",
+    "name": "Les Buttes, Eastbound",
+    "lat": 49.445988,
+    "lon": -2.609895,
     "bearing": "",
     "source": "guernsey"
   },
@@ -3936,6 +5040,54 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000693",
+    "name": "Waves Hotel, Westbound",
+    "lat": 49.464644,
+    "lon": -2.611635,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000694",
+    "name": "Rue du Crocq, Westbound",
+    "lat": 49.463358,
+    "lon": -2.623583,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000695",
+    "name": "Shingle Bank Nature Reserve, Westbound",
+    "lat": 49.458363,
+    "lon": -2.649822,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000696",
+    "name": "L'Eree Bunker, Southbound",
+    "lat": 49.454897,
+    "lon": -2.652807,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000697",
+    "name": "Les Simons, Westbound",
+    "lat": 49.427562,
+    "lon": -2.638456,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000698",
+    "name": "Les Simons, Eastbound",
+    "lat": 49.427692,
+    "lon": -2.637767,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000700",
     "name": "Les Ambelles, Westbound",
     "lat": 49.465207,
@@ -4004,6 +5156,22 @@
     "name": "Blanchelande College, Westbound",
     "lat": 49.441694,
     "lon": -2.585285,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000709",
+    "name": "Route de Farras, Eastbound",
+    "lat": 49.43053,
+    "lon": -2.607006,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000710",
+    "name": "Rue du Longfrie, Southbound",
+    "lat": 49.437029,
+    "lon": -2.628202,
     "bearing": "",
     "source": "guernsey"
   },
@@ -4092,6 +5260,14 @@
     "name": "Mont d'Aval, Westbound",
     "lat": 49.465683,
     "lon": -2.586788,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000722",
+    "name": "Gele Road Junction, Westbound",
+    "lat": 49.458327,
+    "lon": -2.610426,
     "bearing": "",
     "source": "guernsey"
   },
@@ -4312,6 +5488,22 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000755",
+    "name": "La Houguette School, Southbound",
+    "lat": 49.4494,
+    "lon": -2.6381,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000757",
+    "name": "Route des Adams, Westbound",
+    "lat": 49.453698,
+    "lon": -2.645994,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000759",
     "name": "Croix du Bois, Eastbound",
     "lat": 49.490342,
@@ -4392,10 +5584,66 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000779",
+    "name": "Pleinmont, Southbound",
+    "lat": 49.434045,
+    "lon": -2.660374,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000781",
     "name": "North Esplanade, Westbound",
     "lat": 49.457501,
     "lon": -2.535113,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000782",
+    "name": "Rue de la Bataille, Southbound",
+    "lat": 49.455188,
+    "lon": -2.629583,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000783",
+    "name": "Le Frie Baton, Southbound",
+    "lat": 49.451192,
+    "lon": -2.630308,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000784",
+    "name": "Courtil Michele Estate, Southbound",
+    "lat": 49.449235,
+    "lon": -2.63072,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000785",
+    "name": "Route des Clos Landais, Southbound",
+    "lat": 49.444361,
+    "lon": -2.62925,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000786",
+    "name": "Venture Garage, Southbound",
+    "lat": 49.441089,
+    "lon": -2.629692,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000888",
+    "name": "Goldsmiths Eastbound",
+    "lat": 49.436957,
+    "lon": -2.611179,
     "bearing": "",
     "source": "guernsey"
   },
@@ -4456,6 +5704,14 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000907",
+    "name": "St. Peter's, Westbound",
+    "lat": 49.436335,
+    "lon": -2.624609,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000910",
     "name": "Ruette Braye, Northbound",
     "lat": 49.449184,
@@ -4464,10 +5720,34 @@
     "source": "guernsey"
   },
   {
+    "id": "guernsey:890000911",
+    "name": "Route des Sablons, Westbound",
+    "lat": 49.454033,
+    "lon": -2.651436,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000912",
+    "name": "Route des Sablons, Eastbound",
+    "lat": 49.45408,
+    "lon": -2.65123,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
     "id": "guernsey:890000913",
     "name": "Sixth Form Centre/LMDC Primary School",
     "lat": 49.481243,
     "lon": -2.580445,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890000916",
+    "name": "Le Mont Saint Garage, Eastbound",
+    "lat": 49.457458,
+    "lon": -2.623588,
     "bearing": "",
     "source": "guernsey"
   },
@@ -4508,6 +5788,14 @@
     "name": "White Rock, Guernsey Port",
     "lat": 49.4582,
     "lon": -2.531495,
+    "bearing": "",
+    "source": "guernsey"
+  },
+  {
+    "id": "guernsey:890002088",
+    "name": "School Bus ( St. Apolline's Chapel )",
+    "lat": 49.456933,
+    "lon": -2.633321,
     "bearing": "",
     "source": "guernsey"
   },

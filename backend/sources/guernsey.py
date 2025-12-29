@@ -6,7 +6,7 @@ import httpx
 print("[guernsey.py] Imports done", flush=True)
 
 GUERNSEY_ENDPOINT = (
-    "https://ticketless-app.api.urbanthings.cloud/api/2/transit/stops?densityLevels=high&maxLatitude=49.52455&maxLongitude=-2.4341999999999997&minLatitude=49.38985&minLongitude=-2.6406"
+    "https://ticketless-app.api.urbanthings.cloud/api/2/transit/stops?densityLevels=high&maxLatitude=49.52013076008538&maxLongitude=-2.4848128601637427&minLatitude=49.40220602577486&minLongitude=-2.684751280407454"
 )
 
 """
