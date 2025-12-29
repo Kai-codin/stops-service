@@ -9,6 +9,24 @@ GUERNSEY_ENDPOINT = (
     "https://ticketless-app.api.urbanthings.cloud/api/2/transit/stops?densityLevels=high&maxLatitude=49.5021&maxLongitude=-2.4686&minLatitude=49.4123&minLongitude=-2.6062"
 )
 
+"""
+Headers for Guernsey API requests:
+
+-H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0' \
+-H 'Accept: application/vnd.ticketless.arrivalsList+json; version=3' \
+-H 'Accept-Language: en-GB,en;q=0.5' \
+-H 'Accept-Encoding: gzip, deflate, br, zstd' \
+-H 'x-ut-app: travel.ticketless.app.guernsey;platform=web' \
+-H 'x-api-key: TIzVfvPTlb5bjo69rsOPbabDVhwwgSiLaV5MCiME' \
+-H 'Origin: https://buses.gg' \
+-H 'Sec-GPC: 1' \
+-H 'Connection: keep-alive' \
+-H 'Referer: https://buses.gg/' \
+-H 'Sec-Fetch-Dest: empty' \
+-H 'Sec-Fetch-Mode: cors' \
+-H 'Sec-Fetch-Site: cross-site' \
+-H 'TE: trailers'
+"""
 
 async def fetch_guernsey(
     min_lat: Optional[float] = None,
@@ -34,7 +52,24 @@ async def fetch_guernsey(
 
     try:
         try:
-            resp = await client.get(JERSEY_ENDPOINT)
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0",
+                "Accept": "application/vnd.ticketless.arrivalsList+json; version=3",
+                "Accept-Language": "en-GB,en;q=0.5",
+                "Accept-Encoding": "gzip, deflate, br, zstd",
+                "x-ut-app": "travel.ticketless.app.guernsey;platform=web",
+                "x-api-key": "TIzVfvPTlb5bjo69rsOPbabDVhwwgSiLaV5MCiME",
+                "Origin": "https://buses.gg",
+                "Sec-GPC": "1",
+                "Connection": "keep-alive",
+                "Referer": "https://buses.gg/",
+                "Sec-Fetch-Dest": "empty",
+                "Sec-Fetch-Mode": "cors",
+                "Sec-Fetch-Site": "cross-site",
+                "TE": "trailers",
+            }
+            resp = await client.get(GUERNSEY_ENDPOINT, headers=headers)
+
             resp.raise_for_status()
             data = resp.json()
         except Exception as e:
