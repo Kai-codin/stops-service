@@ -226,7 +226,7 @@ def data_page():
                 "Netherlands": "https://gtfs.ovapi.nl/nl/",
                 "Luxembourg": "https://data.public.lu/en/datasets/horaires-et-arrets-des-transport-publics-gtfs/",
                 "Sweden": "https://api.resrobot.se/v2.1/gtfs/sweden.zip",
-                "Guernsey": "https://buses.gg/live-times/",
+                "Guernsey": "https://ticketless-app.api.urbanthings.cloud/api/2/transit/stops/",
             }
 
             for source, url in source_urls.items():
