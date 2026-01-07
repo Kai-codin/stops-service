@@ -92,7 +92,7 @@ async def fetch_iceland(
                                 "lat": lat_f,
                                 "lon": lon_f,
                                 "bearing": "",
-                                "source": "greece",
+                                "source": "iceland",
                             }
 
             except zipfile.BadZipFile as e:
