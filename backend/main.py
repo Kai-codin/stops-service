@@ -227,6 +227,8 @@ def data_page():
                 "Luxembourg": "https://data.public.lu/en/datasets/horaires-et-arrets-des-transport-publics-gtfs/",
                 "Sweden": "https://api.resrobot.se/v2.1/gtfs/sweden.zip",
                 "Guernsey": "https://ticketless-app.api.urbanthings.cloud/api/2/transit/stops/",
+                "Australia": "https://busmaps.com/en/australia/feedlist",
+                "Iceland": "https://opendata.straeto.is/data/gtfs/",
             }
 
             for source, url in source_urls.items():
