@@ -11,10 +11,10 @@ import logging
 
 print("[merge.py] Standard library imports done", flush=True)
 
-import asyncpg
+import aiosqlite
 import httpx
 
-print("[merge.py] asyncpg and httpx imports done", flush=True)
+print("[merge.py] aiosqlite and httpx imports done", flush=True)
 
 # Import your source fetchers
 # --- OPTIONAL SINGLE SOURCE MODE ---
@@ -39,7 +39,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 print("[merge.py] Config section starting...", flush=True)
 DATA_DIR = Path("data")
 # Use environment DATABASE_URL if present, otherwise fallback to a common docker-compose name
-DB_DSN = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db:5432/stops")
+DB_DSN = os.getenv("DATABASE_URL", "sqlite:///./stops.db")
 print(f"[merge.py] DB_DSN={DB_DSN}", flush=True)
 print("[merge.py] Module load complete", flush=True)
 
@@ -116,22 +116,28 @@ def normalize_for_db(stop: Dict[str, Any]) -> Dict[str, Any]:
 
 async def save_to_db(stops: List[Dict[str, Any]], source_only: str = None):
     print(f"[merge.py] save_to_db: source_only={source_only}", flush=True)
-    """Insert merged stops into PostgreSQL"""
+    """Insert merged stops into database (SQLite/Postgres compatible)"""
     print(f"[merge.py] save_to_db: connecting to {DB_DSN}", flush=True)
-    conn = await asyncpg.connect(DB_DSN)
-    print(f"[merge.py] Connected to DB", flush=True)
+    # For sqlite DSN like sqlite:///./stops.db, extract path after sqlite:/// for aiosqlite
+    db_path = DB_DSN
+    if DB_DSN.startswith("sqlite:///"):
+        db_path = DB_DSN.split("sqlite:///", 1)[1]
+    conn = await aiosqlite.connect(db_path)
+    conn.row_factory = aiosqlite.Row
+    print(f"[merge.py] Connected to DB (sqlite path={db_path})", flush=True)
 
-    # Create table if it doesn't exist
+    # Create table if it doesn't exist (SQLite-friendly schema)
     print(f"[merge.py] Creating stops table if needed...", flush=True)
     await conn.execute(
         """
         CREATE TABLE IF NOT EXISTS stops (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             bearing TEXT,
-            location DOUBLE PRECISION[],
+            lon REAL,
+            lat REAL,
             source TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TEXT
         );
         """
     )
@@ -141,30 +147,32 @@ async def save_to_db(stops: List[Dict[str, Any]], source_only: str = None):
     # Clear old data (optional)
     if source_only:
         print(f"[merge.py] Deleting existing stops from source '{source_only}'...", flush=True)
-        await conn.execute("DELETE FROM stops WHERE source = $1;", source_only)
+        await conn.execute("DELETE FROM stops WHERE source = ?;", (source_only,))
         print(f"Deleted existing stops from source '{source_only}'", flush=True)
     else:
-        print(f"[merge.py] Truncating stops table...", flush=True)
-        await conn.execute("TRUNCATE TABLE stops;")
-        print("Truncated stops table", flush=True)
+        print(f"[merge.py] Deleting all rows from stops table...", flush=True)
+        await conn.execute("DELETE FROM stops;")
+        print("Cleared stops table", flush=True)
 
     # Prepare records for insert: ensure location values are proper numeric tuples
     records = []
     for s in stops:
         loc = s.get("location") or [None, None]
-        # ensure list of two floats or nulls
         lon = float(loc[0]) if loc[0] is not None else None
         lat = float(loc[1]) if loc[1] is not None else None
-        records.append((s.get("name"), s.get("bearing"), [lon, lat], s.get("source"), s.get("created_at")))
+        created = s.get("created_at")
+        if isinstance(created, datetime.datetime):
+            created = created.isoformat()
+        records.append((s.get("name"), s.get("bearing"), lon, lat, s.get("source"), created))
 
     print(f"[merge.py] Inserting {len(records)} stops...", flush=True)
 
-    # Asyncpg supports copy_records_to_table which is faster for bulk, but keep executemany for simplicity
     await conn.executemany(
-        "INSERT INTO stops (name, bearing, location, source, created_at) VALUES ($1, $2, $3, $4, $5);",
+        "INSERT INTO stops (name, bearing, lon, lat, source, created_at) VALUES (?, ?, ?, ?, ?, ?);",
         records,
     )
 
+    await conn.commit()
     await conn.close()
     print(f"💾 Inserted {len(records)} merged stops into database.", flush=True)
 
@@ -297,6 +305,12 @@ async def fetch_all_sources():
             available["iceland"] = fetch_iceland
         except Exception as e:
             print(f"[merge.py] Iceland import skipped: {e}", flush=True)
+
+        try:
+            from sources.singapore import fetch_singapore
+            available["singapore"] = fetch_singapore
+        except Exception as e:
+            print(f"[merge.py] Singapore import skipped: {e}", flush=True)
 
         # If single-source specified, only run that one
         if SINGLE_SOURCE:

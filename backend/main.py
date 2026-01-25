@@ -15,7 +15,7 @@ app = FastAPI(title="Stops API")
 print("[main.py] FastAPI app created", flush=True)
 
 # Database URL
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./stops.db")
 engine = None
 
 
@@ -29,7 +29,7 @@ def startup():
             engine = sqlalchemy.create_engine(DATABASE_URL)
             with engine.connect() as conn:
                 conn.execute(text("SELECT 1"))
-            print("✅ Connected to Postgres.", flush=True)
+            print("✅ Connected to database.", flush=True)
         except Exception as e:
             print(f"⚠️ Could not connect to database: {e}", flush=True)
     else:
@@ -83,16 +83,15 @@ def api_stops(
 
     try:
         with engine.connect() as conn:
-            cols = [
-                row[0]
-                for row in conn.execute(
-                    text("""
+            # Get column names in a DB-agnostic way
+            if engine.dialect.name == "sqlite":
+                cols = [row[1] for row in conn.execute(text("PRAGMA table_info('stops');"))]
+            else:
+                cols = [row[0] for row in conn.execute(text("""
                         SELECT column_name
                         FROM information_schema.columns
                         WHERE table_name='stops';
-                    """)
-                )
-            ]
+                    """))]
 
             if "lon" in cols and "lat" in cols:
                 query = text("""
@@ -140,16 +139,14 @@ def api_all_stops(
 
     try:
         with engine.connect() as conn:
-            cols = [
-                row[0]
-                for row in conn.execute(
-                    text("""
+            if engine.dialect.name == "sqlite":
+                cols = [row[1] for row in conn.execute(text("PRAGMA table_info('stops');"))]
+            else:
+                cols = [row[0] for row in conn.execute(text("""
                         SELECT column_name
                         FROM information_schema.columns
                         WHERE table_name='stops';
-                    """)
-                )
-            ]
+                    """))]
 
             if "lon" in cols and "lat" in cols:
                 query = text("""
@@ -229,6 +226,7 @@ def data_page():
                 "Guernsey": "https://ticketless-app.api.urbanthings.cloud/api/2/transit/stops/",
                 "Australia": "https://busmaps.com/en/australia/feedlist",
                 "Iceland": "https://opendata.straeto.is/data/gtfs/",
+                "singapore": "https://data.gov.sg/datasets/d_3f172c6feb3f4f92a2f47d93eed2908a/view",
             }
 
             for source, url in source_urls.items():

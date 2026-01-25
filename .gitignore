@@ -23,3 +23,5 @@ stops_data/
 # OS files
 .DS_Store
 Thumbs.db
+*.zip
+*.json

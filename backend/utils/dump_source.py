@@ -11,10 +11,10 @@ import logging
 
 print("[merge.py] Standard library imports done", flush=True)
 
-import asyncpg
+import aiosqlite
 import httpx
 
-print("[merge.py] asyncpg and httpx imports done", flush=True)
+print("[merge.py] aiosqlite and httpx imports done", flush=True)
 
 import sys
 
@@ -35,10 +35,15 @@ async def main():
             print("[merge.py] DATABASE_URL not set. Exiting.", flush=True)
             return
 
-        conn = await asyncpg.connect(DATABASE_URL)
+        db_path = DATABASE_URL
+        if DATABASE_URL.startswith("sqlite:///"):
+            db_path = DATABASE_URL.split("sqlite:///", 1)[1]
+
+        conn = await aiosqlite.connect(db_path)
         try:
-            result = await conn.execute("DELETE FROM stops WHERE source = $1", source)
-            print(f"[merge.py] remove_source_data: Removed records for source {source}: {result}", flush=True)
+            await conn.execute("DELETE FROM stops WHERE source = ?", (source,))
+            await conn.commit()
+            print(f"[merge.py] remove_source_data: Removed records for source {source}", flush=True)
         finally:
             await conn.close()
 
