@@ -5,6 +5,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
+import time
 import sqlalchemy
 from sqlalchemy import text
 from fastapi.middleware.cors import CORSMiddleware
@@ -24,14 +25,48 @@ def startup():
     print("[main.py] startup() called", flush=True)
     global engine
     if DATABASE_URL:
-        try:
-            print(f"[main.py] Creating engine for {DATABASE_URL}", flush=True)
-            engine = sqlalchemy.create_engine(DATABASE_URL)
-            with engine.connect() as conn:
-                conn.execute(text("SELECT 1"))
-            print("✅ Connected to database.", flush=True)
-        except Exception as e:
-            print(f"⚠️ Could not connect to database: {e}", flush=True)
+        max_retries = 10
+        for attempt in range(max_retries):
+            try:
+                print(f"[main.py] Creating engine for {DATABASE_URL} (attempt {attempt+1}/{max_retries})", flush=True)
+                engine = sqlalchemy.create_engine(DATABASE_URL)
+                with engine.connect() as conn:
+                    conn.execute(text("SELECT 1"))
+                    # Ensure the stops table exists
+                    if engine.dialect.name == "sqlite":
+                        conn.execute(text("""
+                            CREATE TABLE IF NOT EXISTS stops (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                name TEXT,
+                                bearing TEXT,
+                                lon REAL,
+                                lat REAL,
+                                source TEXT,
+                                created_at TEXT
+                            );
+                        """))
+                    else:
+                        conn.execute(text("""
+                            CREATE TABLE IF NOT EXISTS stops (
+                                id SERIAL PRIMARY KEY,
+                                name TEXT,
+                                bearing TEXT,
+                                lon DOUBLE PRECISION,
+                                lat DOUBLE PRECISION,
+                                source TEXT,
+                                created_at TEXT
+                            );
+                        """))
+                    conn.commit()
+                print("✅ Connected to database and table ensured.", flush=True)
+                return
+            except Exception as e:
+                print(f"⚠️ Could not connect to database (attempt {attempt+1}/{max_retries}): {e}", flush=True)
+                if attempt < max_retries - 1:
+                    time.sleep(2)
+                else:
+                    engine = None
+                    print("❌ Giving up on database connection.", flush=True)
     else:
         print("⚠️ DATABASE_URL not set.", flush=True)
 

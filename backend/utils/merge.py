@@ -12,6 +12,7 @@ import logging
 print("[merge.py] Standard library imports done", flush=True)
 
 import aiosqlite
+import asyncpg
 import httpx
 
 print("[merge.py] aiosqlite and httpx imports done", flush=True)
@@ -114,67 +115,110 @@ def normalize_for_db(stop: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+def _is_postgres(dsn: str) -> bool:
+    return dsn.startswith("postgresql://") or dsn.startswith("postgres://")
+
+
 async def save_to_db(stops: List[Dict[str, Any]], source_only: str = None):
     print(f"[merge.py] save_to_db: source_only={source_only}", flush=True)
     """Insert merged stops into database (SQLite/Postgres compatible)"""
     print(f"[merge.py] save_to_db: connecting to {DB_DSN}", flush=True)
-    # For sqlite DSN like sqlite:///./stops.db, extract path after sqlite:/// for aiosqlite
-    db_path = DB_DSN
-    if DB_DSN.startswith("sqlite:///"):
-        db_path = DB_DSN.split("sqlite:///", 1)[1]
-    conn = await aiosqlite.connect(db_path)
-    conn.row_factory = aiosqlite.Row
-    print(f"[merge.py] Connected to DB (sqlite path={db_path})", flush=True)
 
-    # Create table if it doesn't exist (SQLite-friendly schema)
-    print(f"[merge.py] Creating stops table if needed...", flush=True)
-    await conn.execute(
-        """
-        CREATE TABLE IF NOT EXISTS stops (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            bearing TEXT,
-            lon REAL,
-            lat REAL,
-            source TEXT,
-            created_at TEXT
-        );
-        """
-    )
+    if _is_postgres(DB_DSN):
+        conn = await asyncpg.connect(DB_DSN)
+        print(f"[merge.py] Connected to DB (postgresql)", flush=True)
 
-    print("Ensured stops table exists", flush=True)
+        print(f"[merge.py] Creating stops table if needed...", flush=True)
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS stops (
+                id SERIAL PRIMARY KEY,
+                name TEXT,
+                bearing TEXT,
+                lon DOUBLE PRECISION,
+                lat DOUBLE PRECISION,
+                source TEXT,
+                created_at TEXT
+            );
+        """)
+        print("Ensured stops table exists", flush=True)
 
-    # Clear old data (optional)
-    if source_only:
-        print(f"[merge.py] Deleting existing stops from source '{source_only}'...", flush=True)
-        await conn.execute("DELETE FROM stops WHERE source = ?;", (source_only,))
-        print(f"Deleted existing stops from source '{source_only}'", flush=True)
+        if source_only:
+            print(f"[merge.py] Deleting existing stops from source '{source_only}'...", flush=True)
+            await conn.execute("DELETE FROM stops WHERE source = $1;", source_only)
+            print(f"Deleted existing stops from source '{source_only}'", flush=True)
+        else:
+            print(f"[merge.py] Deleting all rows from stops table...", flush=True)
+            await conn.execute("DELETE FROM stops;")
+            print("Cleared stops table", flush=True)
+
+        records = []
+        for s in stops:
+            loc = s.get("location") or [None, None]
+            lon = float(loc[0]) if loc[0] is not None else None
+            lat = float(loc[1]) if loc[1] is not None else None
+            created = s.get("created_at")
+            if isinstance(created, datetime.datetime):
+                created = created.isoformat()
+            records.append((s.get("name"), s.get("bearing"), lon, lat, s.get("source"), created))
+
+        print(f"[merge.py] Inserting {len(records)} stops...", flush=True)
+        await conn.executemany(
+            "INSERT INTO stops (name, bearing, lon, lat, source, created_at) VALUES ($1, $2, $3, $4, $5, $6);",
+            records,
+        )
+        await conn.close()
+        print(f"💾 Inserted {len(records)} merged stops into database.", flush=True)
+
     else:
-        print(f"[merge.py] Deleting all rows from stops table...", flush=True)
-        await conn.execute("DELETE FROM stops;")
-        print("Cleared stops table", flush=True)
+        # SQLite path
+        db_path = DB_DSN
+        if DB_DSN.startswith("sqlite:///"):
+            db_path = DB_DSN.split("sqlite:///", 1)[1]
+        conn = await aiosqlite.connect(db_path)
+        conn.row_factory = aiosqlite.Row
+        print(f"[merge.py] Connected to DB (sqlite path={db_path})", flush=True)
 
-    # Prepare records for insert: ensure location values are proper numeric tuples
-    records = []
-    for s in stops:
-        loc = s.get("location") or [None, None]
-        lon = float(loc[0]) if loc[0] is not None else None
-        lat = float(loc[1]) if loc[1] is not None else None
-        created = s.get("created_at")
-        if isinstance(created, datetime.datetime):
-            created = created.isoformat()
-        records.append((s.get("name"), s.get("bearing"), lon, lat, s.get("source"), created))
+        print(f"[merge.py] Creating stops table if needed...", flush=True)
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS stops (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                bearing TEXT,
+                lon REAL,
+                lat REAL,
+                source TEXT,
+                created_at TEXT
+            );
+        """)
+        print("Ensured stops table exists", flush=True)
 
-    print(f"[merge.py] Inserting {len(records)} stops...", flush=True)
+        if source_only:
+            print(f"[merge.py] Deleting existing stops from source '{source_only}'...", flush=True)
+            await conn.execute("DELETE FROM stops WHERE source = ?;", (source_only,))
+            print(f"Deleted existing stops from source '{source_only}'", flush=True)
+        else:
+            print(f"[merge.py] Deleting all rows from stops table...", flush=True)
+            await conn.execute("DELETE FROM stops;")
+            print("Cleared stops table", flush=True)
 
-    await conn.executemany(
-        "INSERT INTO stops (name, bearing, lon, lat, source, created_at) VALUES (?, ?, ?, ?, ?, ?);",
-        records,
-    )
+        records = []
+        for s in stops:
+            loc = s.get("location") or [None, None]
+            lon = float(loc[0]) if loc[0] is not None else None
+            lat = float(loc[1]) if loc[1] is not None else None
+            created = s.get("created_at")
+            if isinstance(created, datetime.datetime):
+                created = created.isoformat()
+            records.append((s.get("name"), s.get("bearing"), lon, lat, s.get("source"), created))
 
-    await conn.commit()
-    await conn.close()
-    print(f"💾 Inserted {len(records)} merged stops into database.", flush=True)
+        print(f"[merge.py] Inserting {len(records)} stops...", flush=True)
+        await conn.executemany(
+            "INSERT INTO stops (name, bearing, lon, lat, source, created_at) VALUES (?, ?, ?, ?, ?, ?);",
+            records,
+        )
+        await conn.commit()
+        await conn.close()
+        print(f"💾 Inserted {len(records)} merged stops into database.", flush=True)
 
 
 async def fetch_all_sources():
