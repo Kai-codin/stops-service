@@ -4,4 +4,4 @@ sqlalchemy
 aiosqlite
 jinja2
 httpx
- 
+psycopg2-binary
