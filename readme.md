@@ -1,6 +1,6 @@
 # Stops Service
 
-A comprehensive service to aggregate, store, and serve public transport stops from various countries and sources. This project provides a unified API to access stop data and includes a simple web viewer.
+A lightweight service to aggregate, store, and serve public transport stops from various countries and sources. This project provides a unified API to access stop data and includes a simple web viewer.
 
 ## Features
 
@@ -8,7 +8,8 @@ A comprehensive service to aggregate, store, and serve public transport stops fr
 - **Unified API**: Provides a RESTful API to query stops by bounding box or paginated lists.
 - **Web Viewer**: Includes a built-in HTML/JS frontend to visualize stops in a table format.
 - **Dockerized**: Fully containerized with Docker and Docker Compose for easy deployment.
-- **PostGIS Support**: Uses PostgreSQL (with PostGIS capabilities implied for location data) for efficient spatial queries.
+
+Note: This repository has been converted to use SQLite by default (for simpler deployment). The compose setup now runs the API alone and persists a SQLite file in a named volume. If you prefer PostgreSQL, set `DATABASE_URL` to a Postgres DSN and run a Postgres service separately.
 
 ## Supported Data Sources
 
@@ -31,8 +32,8 @@ The service currently aggregates data from the following sources:
 ## Tech Stack
 
 - **Backend**: Python 3.9+, FastAPI
-- **Database**: PostgreSQL 16
-- **ORM/Data Access**: SQLAlchemy, asyncpg
+- **Database**: SQLite (default) — optional PostgreSQL via `DATABASE_URL`
+- **ORM/Data Access**: SQLAlchemy, `aiosqlite` for async utilities
 - **HTTP Client**: httpx
 - **Containerization**: Docker, Docker Compose
 
@@ -62,19 +63,29 @@ SWEDEN_KEY=your_sweden_api_key_here
     cd stops-service
     ```
 
-2.  **Start the services:**
+2.  **Build & start the API (SQLite-backed):**
+
+    ```bash
+    docker compose up --build api
+    ```
+
+    The Docker Compose config now runs only the `api` service by default and persists the SQLite database at `/var/lib/stops/stops.db` inside the container (stored in the named volume `stops_data`).
+
+3.  **Full compose (if you have custom services):**
 
     ```bash
     docker compose up --build
     ```
 
-    This will start the PostgreSQL database and the FastAPI backend.
-
-3.  **Access the application:**
+4.  **Access the application:**
 
     - **API Root**: [http://localhost:8991](http://localhost:8991)
     - **Stops Viewer**: [http://localhost:8991/stops](http://localhost:8991/stops)
     - **Data Stats**: [http://localhost:8991/data](http://localhost:8991/data)
+
+Notes:
+- To use an external PostgreSQL instance instead, set the `DATABASE_URL` environment variable to your Postgres DSN (e.g. `postgresql://user:pass@host:5432/db`) in `compose.yaml` or your environment; the app will detect non-sqlite DSNs and use SQLAlchemy's engine accordingly.
+- If you want to persist the SQLite DB to a host folder instead of a named volume, modify `compose.yaml` to use a host bind mount (I can update that for you if desired).
 
 ## API Usage
 
@@ -105,17 +116,14 @@ GET /api/allstops?limit={limit}&offset={offset}
 
 The project includes a utility script to fetch and merge data from sources. This is typically run within the backend container or as a separate task.
 
-To run the merge script manually (e.g., for Luxembourg):
+To run the merge/import script manually (inside the backend container or with a proper Python environment):
 
 ```bash
-# Inside the backend container or with proper python env
-python -m utils.merge luxembourg
-```
-
-To run for all sources:
-
-```bash
+# inside the backend container or from the backend folder
 python -m utils.merge
+
+# or run just a single source
+python -m utils.merge luxembourg
 ```
 
 ## Project Structure

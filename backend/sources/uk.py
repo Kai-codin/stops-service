@@ -1,6 +1,7 @@
 print("[uk.py] Module loading...", flush=True)
 
 import asyncio
+import random
 from typing import List, Optional, Dict, Any
 import httpx
 
@@ -60,10 +61,21 @@ async def fetch_uk(
         page = 1
 
         while url:
-            print(f"[uk.py] fetch_uk: Fetching from {url}...", flush=True)
-            resp = await client.get(url, params=params if url == UKBUSES_BASE else None)
-            resp.raise_for_status()
-            data = resp.json()
+            retries = 3
+            for attempt in range(retries):
+                try:
+                    print(f"[uk.py] fetch_uk: Fetching from {url}...", flush=True)
+                    resp = await client.get(url, params=params if url == UKBUSES_BASE else None)
+                    resp.raise_for_status()
+                    data = resp.json()
+                    break
+                except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
+                    if attempt < retries - 1:
+                        wait = (2 ** attempt) + random.uniform(0, 1)
+                        print(f"[uk.py] fetch_uk: Retry {attempt+1}/{retries} after {wait:.1f}s: {e}", flush=True)
+                        await asyncio.sleep(wait)
+                    else:
+                        raise
 
             page_results = data.get("results", [])
             print(f"[uk.py] fetch_uk: Got {len(page_results)} results from page {page}", flush=True)

@@ -227,6 +227,7 @@ def data_page():
                 "Australia": "https://busmaps.com/en/australia/feedlist",
                 "Iceland": "https://opendata.straeto.is/data/gtfs/",
                 "singapore": "https://data.gov.sg/datasets/d_3f172c6feb3f4f92a2f47d93eed2908a/view",
+                "Auckland": "https://gtfs.at.govt.nz/gtfs.zip",
             }
 
             for source, url in source_urls.items():
