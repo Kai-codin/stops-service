@@ -363,8 +363,8 @@ async def fetch_all_sources():
             print(f"[merge.py] Auckland import skipped: {e}", flush=True)
 
         try:
-            from sources.tenerife import tenerife
-            available["tenerife"] = tenerife
+            from sources.tenerife import fetch_tenerife
+            available["tenerife"] = fetch_tenerife
         except Exception as e:
             print(f"[merge.py] Tenerife import skipped: {e}", flush=True)
 
