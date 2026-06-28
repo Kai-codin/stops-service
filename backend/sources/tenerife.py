@@ -64,20 +64,16 @@ async def fetch_tenerife(
                             
                         with z.open('stops.txt') as f:
                             for line in f:
-                                # stops.txt is a CSV file
-                                # format "stop_id","stop_code","stop_name","stop_lat","stop_lon","zone_id","stop_url","location_type","parent_station","stop_desc","stop_timezone","wheelchair_boarding","level_id","platform_code"
-                                # get stop_name, stop_lat, stop_lon
-
-                                decoded_line = line.decode('utf-8').strip()
-                                if decoded_line.startswith("stop_id"):
+                                decoded_line = line.decode('utf-8-sig').strip('\r\n')
+                                if not decoded_line or decoded_line.startswith("stop_id"):
                                     continue
-                                parts = decoded_line.split('","')
-                                if len(parts) < 5:
+                                parts = decoded_line.split(',')
+                                if len(parts) < 4:
                                     continue
-                                stop_id = parts[0].replace('"','')
-                                stop_name = parts[2]
-                                stop_lat = parts[3]
-                                stop_lon = parts[4]
+                                stop_id = parts[0]
+                                stop_name = parts[1]
+                                stop_lat = parts[2]
+                                stop_lon = parts[3]
                                 payload["data"]["stops"][stop_id] = {
                                     "name": stop_name,
                                     "lat": stop_lat,

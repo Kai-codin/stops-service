@@ -230,137 +230,137 @@ async def fetch_all_sources():
         # Available fetchers
         available = {}
 
-        try:
-            from sources.hsl import fetch_hsl
-            available["hsl"] = fetch_hsl
-        except Exception as e:
-            print(f"[merge.py] HSL import skipped: {e}", flush=True)
-
-        try:
-            from sources.uk import fetch_uk
-            available["uk"] = fetch_uk
-        except Exception as e:
-            print(f"[merge.py] UK import skipped: {e}", flush=True)
-
-        try:
-            from sources.eu import fetch_eu
-            available["eu"] = fetch_eu
-        except Exception as e:
-            print(f"[merge.py] EU import skipped: {e}", flush=True)
-
-        try:
-            from sources.varely import fetch_varely
-            available["varely"] = fetch_varely
-        except Exception as e:
-            print(f"[merge.py] Varely import skipped: {e}", flush=True)
-
-        try:
-            from sources.finland import fetch_finland
-            available["finland"] = fetch_finland
-        except Exception as e:
-            print(f"[merge.py] Finland import skipped: {e}", flush=True)
-
-        try:
-            from sources.waltti import fetch_waltti
-            available["waltti"] = fetch_waltti
-        except Exception as e:
-            print(f"[merge.py] Waltti import skipped: {e}", flush=True)
-
-        try:
-            from sources.france import fetch_france
-            available["france"] = fetch_france
-        except Exception as e:
-            print(f"[merge.py] France import skipped: {e}", flush=True)
-
-        try:
-            from sources.italy import fetch_italy
-            available["italy"] = fetch_italy
-        except Exception as e:
-            print(f"[merge.py] Italy import skipped: {e}", flush=True)
-
-        try:
-            from sources.slovakia import fetch_slovakia
-            available["slovakia"] = fetch_slovakia
-        except Exception as e:
-            print(f"[merge.py] Slovakia import skipped: {e}", flush=True)
-
-        try:
-            from sources.poland import fetch_poland
-            available["poland"] = fetch_poland
-        except Exception as e:
-            print(f"[merge.py] Poland import skipped: {e}", flush=True)
-
-        try:
-            from sources.greece import fetch_greece
-            available["greece"] = fetch_greece
-        except Exception as e:
-            print(f"[merge.py] Greece import skipped: {e}", flush=True)
-
-        try:
-            from sources.switzerland import fetch_switzerland
-            available["switzerland"] = fetch_switzerland
-        except Exception as e:
-            print(f"[merge.py] Switzerland import skipped: {e}", flush=True)
-
-        try:
-            from sources.jersey import fetch_jersey
-            available["jersey"] = fetch_jersey
-        except Exception as e:
-            print(f"[merge.py] Jersey import skipped: {e}", flush=True)
-
-        try:
-            from sources.germany import fetch_germany
-            available["germany"] = fetch_germany
-        except Exception as e:
-            print(f"[merge.py] Germany import skipped: {e}", flush=True)
-
-        try:
-            from sources.netherlands import fetch_netherlands
-            available["netherlands"] = fetch_netherlands
-        except Exception as e:
-            print(f"[merge.py] Netherlands import skipped: {e}", flush=True)
-
-        try:
-            from sources.luxembourg import fetch_luxembourg
-            available["luxembourg"] = fetch_luxembourg
-        except Exception as e:
-            print(f"[merge.py] Luxembourg import skipped: {e}", flush=True)
-            
-        try:
-            from sources.sweden import fetch_sweden
-            available["sweden"] = fetch_sweden
-        except Exception as e:
-            print(f"[merge.py] Sweden import skipped: {e}", flush=True)
-
-        try:
-            from sources.guernsey import fetch_guernsey
-            available["guernsey"] = fetch_guernsey
-        except Exception as e:
-            print(f"[merge.py] Guernsey import skipped: {e}", flush=True)
-
-        try:
-            from sources.australia import fetch_Australia
-            available["australia"] = fetch_Australia
-        except Exception as e:
-            print(f"[merge.py] Australia import skipped: {e}", flush=True)
-
-        try:
-            from sources.iceland import fetch_iceland
-            available["iceland"] = fetch_iceland
-        except Exception as e:
-            print(f"[merge.py] Iceland import skipped: {e}", flush=True)
-
-        try:
-            from sources.singapore import fetch_singapore
-            available["singapore"] = fetch_singapore
-        except Exception as e:
-            print(f"[merge.py] Singapore import skipped: {e}", flush=True)
-
-        try:
-            from sources.auckland import fetch_auckland
-            available["auckland"] = fetch_auckland
-        except Exception as e:
-            print(f"[merge.py] Auckland import skipped: {e}", flush=True)
+        #try:
+        #    from sources.hsl import fetch_hsl
+        #    available["hsl"] = fetch_hsl
+        #except Exception as e:
+        #    print(f"[merge.py] HSL import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.uk import fetch_uk
+        #    available["uk"] = fetch_uk
+        #except Exception as e:
+        #    print(f"[merge.py] UK import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.eu import fetch_eu
+        #    available["eu"] = fetch_eu
+        #except Exception as e:
+        #    print(f"[merge.py] EU import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.varely import fetch_varely
+        #    available["varely"] = fetch_varely
+        #except Exception as e:
+        #    print(f"[merge.py] Varely import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.finland import fetch_finland
+        #    available["finland"] = fetch_finland
+        #except Exception as e:
+        #    print(f"[merge.py] Finland import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.waltti import fetch_waltti
+        #    available["waltti"] = fetch_waltti
+        #except Exception as e:
+        #    print(f"[merge.py] Waltti import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.france import fetch_france
+        #    available["france"] = fetch_france
+        #except Exception as e:
+        #    print(f"[merge.py] France import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.italy import fetch_italy
+        #    available["italy"] = fetch_italy
+        #except Exception as e:
+        #    print(f"[merge.py] Italy import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.slovakia import fetch_slovakia
+        #    available["slovakia"] = fetch_slovakia
+        #except Exception as e:
+        #    print(f"[merge.py] Slovakia import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.poland import fetch_poland
+        #    available["poland"] = fetch_poland
+        #except Exception as e:
+        #    print(f"[merge.py] Poland import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.greece import fetch_greece
+        #    available["greece"] = fetch_greece
+        #except Exception as e:
+        #    print(f"[merge.py] Greece import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.switzerland import fetch_switzerland
+        #    available["switzerland"] = fetch_switzerland
+        #except Exception as e:
+        #    print(f"[merge.py] Switzerland import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.jersey import fetch_jersey
+        #    available["jersey"] = fetch_jersey
+        #except Exception as e:
+        #    print(f"[merge.py] Jersey import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.germany import fetch_germany
+        #    available["germany"] = fetch_germany
+        #except Exception as e:
+        #    print(f"[merge.py] Germany import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.netherlands import fetch_netherlands
+        #    available["netherlands"] = fetch_netherlands
+        #except Exception as e:
+        #    print(f"[merge.py] Netherlands import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.luxembourg import fetch_luxembourg
+        #    available["luxembourg"] = fetch_luxembourg
+        #except Exception as e:
+        #    print(f"[merge.py] Luxembourg import skipped: {e}", flush=True)
+        #    
+        #try:
+        #    from sources.sweden import fetch_sweden
+        #    available["sweden"] = fetch_sweden
+        #except Exception as e:
+        #    print(f"[merge.py] Sweden import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.guernsey import fetch_guernsey
+        #    available["guernsey"] = fetch_guernsey
+        #except Exception as e:
+        #    print(f"[merge.py] Guernsey import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.australia import fetch_Australia
+        #    available["australia"] = fetch_Australia
+        #except Exception as e:
+        #    print(f"[merge.py] Australia import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.iceland import fetch_iceland
+        #    available["iceland"] = fetch_iceland
+        #except Exception as e:
+        #    print(f"[merge.py] Iceland import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.singapore import fetch_singapore
+        #    available["singapore"] = fetch_singapore
+        #except Exception as e:
+        #    print(f"[merge.py] Singapore import skipped: {e}", flush=True)
+#
+        #try:
+        #    from sources.auckland import fetch_auckland
+        #    available["auckland"] = fetch_auckland
+        #except Exception as e:
+        #    print(f"[merge.py] Auckland import skipped: {e}", flush=True)
 
         try:
             from sources.tenerife import fetch_tenerife
