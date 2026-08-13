@@ -250,7 +250,7 @@ def data_page():
                 "France": "https://transport.data.gouv.fr/api/gtfs-stops",
                 "Italy": "https://busmaps.com/en/italy/feedlist",
                 "Slovakia": "https://busmaps.com/en/slovakia/feedlist",
-                "Poland": "https://busmaps.com/en/poland/feedlist",
+                "Poland": "https://dev-portal.at.govt.nz/GTFS-API",
                 "Greece": "https://busmaps.com/en/greece/feedlist",
                 "Switzerland": "https://data.oev-info.ch/explore/dataset/stop-points-today/",
                 "Jersey": "https://github.com/jclgoodwin/bustimes.org/blob/main/busstops/jersey-bus-stops.json",
